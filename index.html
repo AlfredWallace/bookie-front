@@ -17,25 +17,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-<script>
-    new Vue({
-        el: '#login_form',
-        data: {
-            userLogin:'',
-            userPassword:''
-        },
-        methods: {
-            getApiToken: function() {
-                axios.post('http://local.bookie-api.alfred-wallace.com/login_check', {
-                    username: this.userLogin,
-                    password: this.userPassword
-                }).then(function(response) {
-
-                    console.log(response);
-                });
-            }
-        }
-    });
-</script>
+<script src="bookie.js"></script>
 </body>
 </html>
