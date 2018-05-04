@@ -3,20 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-    crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bookie.css">
     <title>Alfred Wallace Bookie</title>
 </head>
 <body>
-<div id="login_form">
-    <input type="text" v-model="userLogin">
-    <input type="password" v-model="userPassword">
-    <button @click="getApiToken">get token</button>
+<div class="fixed-top bk-header bg-info text-light">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                Bookie
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container h-100">
+    <div id="login_form" class="row h-100 align-items-center justify-content-around">
+        <div class="col col-md-6 col-lg-4">
+            <div class="form-group">
+                <input type="text" v-model="userLogin" id="userLogin" placeholder="Username"
+                       class="form-control form-control-lg">
+            </div>
+            <div class="form-group">
+                <input type="password" v-model="userPassword" id="userPassword" placeholder="Password"
+                       class="form-control form-control-lg">
+            </div>
+            <button @click="getApiToken" class="btn btn-lg btn-info w-100">Login</button>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-<script src="bookie.js"></script>
+<script src="js/bookie.js"></script>
 </body>
 </html>
