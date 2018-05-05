@@ -17,20 +17,8 @@
         </div>
     </div>
 </div>
-<div class="container h-100">
-    <div id="login_form" class="row h-100 align-items-center justify-content-around">
-        <div class="col col-md-6 col-lg-4">
-            <div class="form-group">
-                <input type="text" v-model="userLogin" id="userLogin" placeholder="Username"
-                       class="form-control form-control-lg">
-            </div>
-            <div class="form-group">
-                <input type="password" v-model="userPassword" id="userPassword" placeholder="Password"
-                       class="form-control form-control-lg">
-            </div>
-            <button @click="getApiToken" class="btn btn-lg btn-info w-100">Login</button>
-        </div>
-    </div>
+<div id="main-container" class="container h-100">
+    <login-form></login-form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
