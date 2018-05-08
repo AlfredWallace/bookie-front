@@ -41,7 +41,7 @@ Vue.component('login-form', {
 Vue.component('authenticated-content', {
     template: `
         <div class="row">
-            <div class="col">
+            <div class="col bk-header-shift">
                 Logged in !
             </div>
         </div>
