@@ -6,6 +6,7 @@ Vue.component('login-form', {
             loading: false
         };
     },
+    props: ['apiBaseUrl'],
     template: `
         <div id="login_form" class="row h-100 align-items-center justify-content-around">
             <div class="col col-md-6 col-lg-4">
@@ -26,7 +27,8 @@ Vue.component('login-form', {
         getApiToken: function() {
             let loginForm = this;
             loginForm.loading = true;
-            axios.post('http://local.bookie-api.alfred-wallace.com/login_check', {
+            console.log(loginForm.apiBaseUrl);
+            axios.post(loginForm.apiBaseUrl + '/login_check', {
                 username: this.userLogin,
                 password: this.userPassword
             }).then(function(response) {
@@ -39,6 +41,7 @@ Vue.component('login-form', {
 });
 
 Vue.component('authenticated-content', {
+    props: ['apiBaseUrl'],
     template: `
         <div class="row">
             <div class="col bk-header-shift">
@@ -51,7 +54,8 @@ Vue.component('authenticated-content', {
 new Vue({
     el: '#main-container',
     data: {
-        loggedIn: false
+        loggedIn: false,
+        apiBaseUrl: 'http://local.bookie-api.alfred-wallace.com'
     },
     created: function () {
         this.$on('logged-in', function () {
