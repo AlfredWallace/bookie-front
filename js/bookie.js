@@ -9,7 +9,7 @@ Vue.component('login-form', {
     props: ['apiBaseUrl'],
     template: `
         <div id="login_form" class="row h-100 align-items-center justify-content-around">
-            <div class="col col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-4">
                 <div class="form-group">
                     <input type="text" v-model="userLogin" placeholder="Username"
                            class="form-control form-control-lg" :disabled="loading == true">
@@ -34,7 +34,7 @@ Vue.component('login-form', {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
                     loginForm.$root.$emit('logged-in', response.data.token);
                 }
-            }).catch(function (response) {
+            }).catch(function () {
                 loginForm.loading = false;
             });
         }
@@ -62,10 +62,8 @@ Vue.component('match-list', {
                 }
             }).then(function (response) {
                 if (response.hasOwnProperty('data')) {
-                    console.log(response.data);
                     matchList.matches = response.data;
                 }
-            }).catch(function (response) {
             });
         }
     },
@@ -77,11 +75,21 @@ Vue.component('match-list', {
 Vue.component('match', {
     props: ['match'],
     template: `
-         <div class="col col-12">
-            <div class="row">
-                <div class="col col-12">{{ match.kick_off }}</div>
-                <div class="col col-6">{{ match.home_team.name }}</div>
-                <div class="col col-6">{{ match.away_team.name }}</div>
+         <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card border-info">
+                <div class="card-header text-white bg-info">{{ match.kick_off }}</div>
+                <div class="card-body text-info bk-match-card-content">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-3">{{ match.home_team.abbreviation }}</div>
+                        <div class="col-7">{{ match.home_team.name }}</div>
+                        <div class="col-2">{{ match.home_score }}</div>
+                        <div class="col-3">{{ match.away_team.abbreviation }}</div>
+                        <div class="col-7">{{ match.away_team.name }}</div>
+                        <div class="col-2">{{ match.away_score }}</div>
+                    </div>
+                    </div>
+                </div>
             </div>
          </div>
     `

@@ -10,3 +10,7 @@ body, html {
 .bk-header-shift {
     margin-top: 5em;
 }
+
+.bk-match-card-content {
+    font-size: 1.4em;
+}
