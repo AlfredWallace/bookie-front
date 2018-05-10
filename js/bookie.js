@@ -27,7 +27,6 @@ Vue.component('login-form', {
         getApiToken: function() {
             let loginForm = this;
             loginForm.loading = true;
-            console.log(loginForm.apiBaseUrl);
             axios.post(loginForm.apiBaseUrl + '/login_check', {
                 username: this.userLogin,
                 password: this.userPassword
