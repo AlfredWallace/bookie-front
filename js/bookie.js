@@ -31,7 +31,9 @@ Vue.component('login-form', {
                 username: this.userLogin,
                 password: this.userPassword
             }).then(function(response) {
-                loginForm.$root.$emit('logged-in');
+                if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
+                    loginForm.$root.$emit('logged-in', response.data.token);
+                }
             }).catch(function (response) {
                 loginForm.loading = false;
             });
@@ -39,14 +41,49 @@ Vue.component('login-form', {
     }
 });
 
-Vue.component('authenticated-content', {
-    props: ['apiBaseUrl'],
+Vue.component('match-list', {
+    data: function() {
+        return {
+            matches: null
+        };
+    },
+    props: ['apiBaseUrl', 'token'],
     template: `
-        <div class="row">
-            <div class="col bk-header-shift">
-                Logged in !
-            </div>
+        <div class="row bk-header-shift">
+            <match v-for="match in matches" :match="match" :key="match.id"></match>
         </div>
+    `,
+    methods: {
+        getMatches: function() {
+            let matchList = this;
+            axios.get(this.apiBaseUrl + '/matches', {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then(function (response) {
+                if (response.hasOwnProperty('data')) {
+                    console.log(response.data);
+                    matchList.matches = response.data;
+                }
+            }).catch(function (response) {
+            });
+        }
+    },
+    created: function () {
+        this.getMatches();
+    }
+});
+
+Vue.component('match', {
+    props: ['match'],
+    template: `
+         <div class="col col-12">
+            <div class="row">
+                <div class="col col-12">{{ match.kick_off }}</div>
+                <div class="col col-6">{{ match.home_team.name }}</div>
+                <div class="col col-6">{{ match.away_team.name }}</div>
+            </div>
+         </div>
     `
 });
 
@@ -54,11 +91,13 @@ new Vue({
     el: '#main-container',
     data: {
         loggedIn: false,
-        apiBaseUrl: 'http://local.bookie-api.alfred-wallace.com'
+        apiBaseUrl: 'http://local.bookie-api.alfred-wallace.com',
+        token: null
     },
     created: function () {
-        this.$on('logged-in', function () {
+        this.$on('logged-in', function (token) {
             this.loggedIn = true;
+            this.token = token;
         });
     }
 });
