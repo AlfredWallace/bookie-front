@@ -73,20 +73,32 @@ Vue.component('match-list', {
 });
 
 Vue.component('match', {
+    data: function() {
+        return {
+            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/'
+        };
+    },
     props: ['match'],
     template: `
-         <div class="col-12 col-md-6 col-lg-4 mb-4">
+         <div class="col-12 col-lg-6 mb-4">
             <div class="card border-info">
                 <div class="card-header text-white bg-info">{{ match.kick_off }}</div>
                 <div class="card-body text-info bk-match-card-content">
                     <div class="container-fluid">
                     <div class="row">
-                        <div class="col-3">{{ match.home_team.abbreviation }}</div>
-                        <div class="col-7">{{ match.home_team.name }}</div>
-                        <div class="col-2">{{ match.home_score }}</div>
-                        <div class="col-3">{{ match.away_team.abbreviation }}</div>
-                        <div class="col-7">{{ match.away_team.name }}</div>
-                        <div class="col-2">{{ match.away_score }}</div>
+                        <div class="col-3">
+                            <img class="img-fluid d-flex align-items-center" 
+                                :src="flagsUrl + match.home_team.abbreviation">
+                        </div>
+                        <div class="col-7 d-flex align-items-center">{{ match.home_team.name }}</div>
+                        <div class="col-2 d-flex align-items-center">{{ match.home_score }}</div>
+                        
+                        <div class="col-3">
+                            <img class="img-fluid d-flex align-items-center" 
+                                :src="flagsUrl + match.away_team.abbreviation">
+                        </div>
+                        <div class="col-7 d-flex align-items-center">{{ match.away_team.name }}</div>
+                        <div class="col-2 d-flex align-items-center">{{ match.away_score }}</div>
                     </div>
                     </div>
                 </div>
