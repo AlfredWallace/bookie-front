@@ -1,24 +1,28 @@
 @import "../scss/bootstrap";
 
 body, html {
-    height: 100%;
+  height: 100%;
 }
 
 .bk-header {
-    line-height: 2.5em;
-    margin-bottom: 4%;
+  margin-bottom: 4%;
+  font-size: 1.4em;
 }
 
 .bk-header-shift {
-    margin-top: 5em;
+  margin-top: 5em;
 }
 
 .bk-match-card-content {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
 
 @include media-breakpoint-up(md) {
-    .bk-match-card-content {
-        font-size: 2.3em;
-    }
+  .bk-header {
+    font-size: 2.3em;
+  }
+
+  .bk-match-card-content {
+    font-size: 2.3em;
+  }
 }
