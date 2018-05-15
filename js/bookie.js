@@ -102,19 +102,23 @@ Vue.component('match', {
                 <div class="card-body text-info bk-match-card-content">
                     <div class="container-fluid">
                     <div class="row">
-                        <div class="col-3">
-                            <img class="img-fluid d-flex align-items-center" 
-                                :src="flagsUrl + match.home_team.abbreviation">
+
+                        <div class="col-3 d-flex flex-column align-items-center justify-content-center text-uppercase">
+                            <div><img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation"></div>
+                            <div>{{ match.home_team.abbreviation }}</div>
                         </div>
-                        <div class="col-7 d-flex align-items-center">{{ match.home_team.name }}</div>
-                        <div class="col-2 d-flex align-items-center">{{ match.home_score }}</div>
                         
-                        <div class="col-3">
-                            <img class="img-fluid d-flex align-items-center" 
-                                :src="flagsUrl + match.away_team.abbreviation">
+                        <div class="col-3 d-flex align-items-center justify-content-center display-4">
+                            {{ match.home_score }}
                         </div>
-                        <div class="col-7 d-flex align-items-center">{{ match.away_team.name }}</div>
-                        <div class="col-2 d-flex align-items-center">{{ match.away_score }}</div>
+                        <div class="col-3 d-flex align-items-center justify-content-center display-4">
+                            {{ match.away_score }}
+                        </div>
+                        
+                        <div class="col-3 d-flex flex-column align-items-center justify-content-center text-uppercase">
+                            <div><img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation"></div>
+                            <div>{{ match.away_team.abbreviation }}</div>
+                        </div>
                     </div>
                     </div>
                 </div>
