@@ -14,15 +14,17 @@ body, html {
 }
 
 .bk-match-card-content {
-  font-size: 1.4em;
+  .bk-team-name {
+    font-size: 1.6em
+  }
+}
+
+.bk-match-card-header {
+  font-size: 1.2em;
 }
 
 @include media-breakpoint-up(md) {
   .bk-header {
-    font-size: 2.3em;
-  }
-
-  .bk-match-card-content {
     font-size: 2.3em;
   }
 }

@@ -96,30 +96,40 @@ Vue.component('match', {
         }
     },
     template: `
-         <div class="col-12 col-lg-6 mb-4">
+         <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card border-info">
-                <div class="card-header text-center text-white bg-info">{{ formatedKickOff }}</div>
+                <div class="card-header text-center text-white bg-info bk-match-card-header">
+                    {{ formatedKickOff }}
+                </div>
                 <div class="card-body text-info bk-match-card-content">
                     <div class="container-fluid">
-                    <div class="row">
-
-                        <div class="col-3 d-flex flex-column align-items-center justify-content-center text-uppercase">
-                            <div><img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation"></div>
-                            <div>{{ match.home_team.abbreviation }}</div>
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col d-flex justify-content-start align-items-center text-uppercase">
+                                <div class="w-25">
+                                    <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation">
+                                </div>
+                                <div class="w-25 ml-3 bk-team-name">{{ match.home_team.abbreviation }}</div>
+                                <div class="w-25 ml-auto">
+                                    <input type="number" class="form-control form-control-lg" placeholder="0" step="1">
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="col-3 d-flex align-items-center justify-content-center display-4">
-                            {{ match.home_score }}
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col d-flex justify-content-start align-items-center text-uppercase">
+                                <div class="w-25">
+                                    <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation">
+                                </div>
+                                <div class="w-25 ml-3 bk-team-name">{{ match.away_team.abbreviation }}</div>       
+                                <div class="w-25 ml-auto">
+                                    <input type="number" class="form-control form-control-lg" placeholder="0" step="1">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-3 d-flex align-items-center justify-content-center display-4">
-                            {{ match.away_score }}
+                        <div class="row mt-2">
+                            <div class="col">
+                                <button class="btn btn-lg btn-block btn-success">Enregistrer mon pari</button>
+                            </div>
                         </div>
-                        
-                        <div class="col-3 d-flex flex-column align-items-center justify-content-center text-uppercase">
-                            <div><img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation"></div>
-                            <div>{{ match.away_team.abbreviation }}</div>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
