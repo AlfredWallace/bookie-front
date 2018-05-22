@@ -50,11 +50,11 @@ Vue.component('match-list', {
             days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
         };
     },
-    props: ['apiBaseUrl', 'token'],
+    props: ['apiBaseUrl', 'token', 'userId'],
     template: `
         <div class="row bk-header-shift">
-            <match v-for="match in matches" :match="match" :key="match.id" 
-                :months="months" :days="days"></match>
+            <match v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
+                :user-id="userId"></match>
         </div>
     `,
     methods: {
@@ -82,7 +82,7 @@ Vue.component('match', {
             flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/'
         };
     },
-    props: ['match', 'months', 'days'],
+    props: ['match', 'months', 'days', 'userId'],
     computed: {
         formatedKickOff: function () {
             let kickOffDate = new Date(this.match.kick_off);
@@ -142,12 +142,19 @@ new Vue({
     data: {
         loggedIn: false,
         apiBaseUrl: 'http://local.bookie-api.alfred-wallace.com',
-        token: null
+        token: null,
+        userId: null
     },
     created: function () {
         this.$on('logged-in', function (token) {
             this.loggedIn = true;
             this.token = token;
+            let decodedToken = JSON.parse(window.atob(token.split('.')[1]));
+            if (decodedToken.hasOwnProperty('userId')) {
+                this.userId = decodedToken.userId;
+            } else {
+                this.userId = null;
+            }
         });
     }
 });
