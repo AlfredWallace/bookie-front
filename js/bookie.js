@@ -18,13 +18,13 @@ Vue.component('login-form', {
                     <input type="password" v-model="userPassword" placeholder="Password"
                            class="form-control form-control-lg" :disabled="loading == true">
                 </div>
-                <button @click="getApiToken" :disabled="loading == true" 
+                <button @click="connect" :disabled="loading == true" 
                     class="btn btn-lg btn-info w-100">Login</button>
             </div>
         </div>
     `,
     methods: {
-        getApiToken: function() {
+        connect: function() {
             let loginForm = this;
             loginForm.loading = true;
             axios.post(loginForm.apiBaseUrl + '/login_check', {
