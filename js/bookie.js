@@ -54,7 +54,7 @@ Vue.component('match-list', {
     template: `
         <div class="row bk-header-shift">
             <match v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
-                :user-id="userId"></match>
+                :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match>
         </div>
     `,
     methods: {
@@ -79,10 +79,30 @@ Vue.component('match-list', {
 Vue.component('match', {
     data: function() {
         return {
-            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/'
+            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
+            homeScore: null,
+            awayScore: null
         };
     },
-    props: ['match', 'months', 'days', 'userId'],
+    props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
+    methods: {
+        saveBet: function () {
+            let matchComponent = this;
+            axios.post(
+                this.apiBaseUrl + '/bets/group-stage/new',
+                {
+                    user: matchComponent.userId,
+                    match: matchComponent.match.id,
+                    home_score: this.homeScore,
+                    away_score: this.awayScore
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                });
+        }
+    },
     computed: {
         formatedKickOff: function () {
             let kickOffDate = new Date(this.match.kick_off);
@@ -110,7 +130,8 @@ Vue.component('match', {
                                 </div>
                                 <div class="w-25 ml-3 bk-team-name">{{ match.home_team.abbreviation }}</div>
                                 <div class="w-25 ml-auto">
-                                    <input type="number" class="form-control form-control-lg" placeholder="0" step="1">
+                                    <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
+                                        v-model="homeScore">
                                 </div>
                             </div>
                         </div>
@@ -121,13 +142,15 @@ Vue.component('match', {
                                 </div>
                                 <div class="w-25 ml-3 bk-team-name">{{ match.away_team.abbreviation }}</div>       
                                 <div class="w-25 ml-auto">
-                                    <input type="number" class="form-control form-control-lg" placeholder="0" step="1">
+                                    <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
+                                        v-model="awayScore">
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col">
-                                <button class="btn btn-lg btn-block btn-success">Enregistrer mon pari</button>
+                                <button class="btn btn-lg btn-block btn-success" 
+                                    @click="saveBet">Enregistrer mon pari</button>
                             </div>
                         </div>
                     </div>
