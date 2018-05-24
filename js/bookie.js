@@ -89,7 +89,7 @@ Vue.component('match', {
         saveBet: function () {
             let matchComponent = this;
             axios.post(
-                this.apiBaseUrl + '/bets/group-stage/new',
+                this.apiBaseUrl + '/bets/group-stage',
                 {
                     user: matchComponent.userId,
                     match: matchComponent.match.id,
