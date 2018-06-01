@@ -11,15 +11,19 @@ Vue.component('login-form', {
         <div id="login_form" class="row h-100 align-items-center justify-content-around">
             <div class="col-md-6 col-lg-4">
                 <div class="form-group">
-                    <input type="text" v-model="userLogin" placeholder="Username"
-                           class="form-control form-control-lg" :disabled="loading == true">
+                    <input type="text" v-model="userLogin" placeholder="Username" :disabled="loading == true"
+                           class="form-control form-control-lg">
                 </div>
                 <div class="form-group">
-                    <input type="password" v-model="userPassword" placeholder="Password"
-                           class="form-control form-control-lg" :disabled="loading == true">
+                    <input type="password" v-model="userPassword" placeholder="Password" :disabled="loading == true"
+                           class="form-control form-control-lg">
                 </div>
-                <button @click="connect" :disabled="loading == true" 
-                    class="btn btn-lg btn-info w-100">Login</button>
+                <div class="d-flex">
+                    <button @click="connect" :disabled="loading == true" class="btn btn-info">Se connecter</button>
+                    <button @click="createAccount" :disabled="loading == true" class="btn btn-link ml-auto">
+                        Créer un compte
+                    </button>
+                </div>
             </div>
         </div>
     `,
@@ -33,6 +37,20 @@ Vue.component('login-form', {
             }).then(function(response) {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
                     loginForm.$root.$emit('logged-in', response.data.token);
+                }
+            }).catch(function () {
+                loginForm.loading = false;
+            });
+        },
+        createAccount: function () {
+            let loginForm = this;
+            loginForm.loading = true;
+            axios.post(loginForm.apiBaseUrl + '/users/new', {
+               username: this.userLogin,
+               password: this.userPassword
+            }).then(function (response) {
+                if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
+                    loginForm.connect();
                 }
             }).catch(function () {
                 loginForm.loading = false;
