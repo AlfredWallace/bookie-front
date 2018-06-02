@@ -12,13 +12,16 @@
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "style-loader": "^0.21.0",
     "vue-loader": "^15.2.4",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.10.2",
     "webpack-cli": "^3.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "wpdev": "webpack --mode development",
+    "webpack-production-deployment": "webpack --mode production"
   },
   "repository": {
     "type": "git",
