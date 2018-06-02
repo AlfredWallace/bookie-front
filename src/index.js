@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import Axios from 'axios'
+
 Vue.component('login-form', {
     data: function() {
         return {
@@ -31,7 +34,7 @@ Vue.component('login-form', {
         connect: function() {
             let loginForm = this;
             loginForm.loading = true;
-            axios.post(loginForm.apiBaseUrl + '/login_check', {
+            Axios.post(loginForm.apiBaseUrl + '/login_check', {
                 username: this.userLogin,
                 password: this.userPassword
             }).then(function(response) {
@@ -45,7 +48,7 @@ Vue.component('login-form', {
         createAccount: function () {
             let loginForm = this;
             loginForm.loading = true;
-            axios.post(loginForm.apiBaseUrl + '/users/new', {
+            Axios.post(loginForm.apiBaseUrl + '/users/new', {
                username: this.userLogin,
                password: this.userPassword
             }).then(function (response) {
@@ -78,7 +81,7 @@ Vue.component('match-list', {
     methods: {
         getMatches: function() {
             let matchList = this;
-            axios.get(this.apiBaseUrl + '/matches', {
+            Axios.get(this.apiBaseUrl + '/matches', {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }
@@ -106,7 +109,7 @@ Vue.component('match', {
     methods: {
         saveBet: function () {
             let matchComponent = this;
-            axios.post(
+            Axios.post(
                 this.apiBaseUrl + '/bets/group-stage',
                 {
                     user: matchComponent.userId,
