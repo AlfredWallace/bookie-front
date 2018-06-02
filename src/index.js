@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Axios from 'axios'
+import './scss/bookie.scss';
 
 Vue.component('login-form', {
     data: function() {
