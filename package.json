@@ -6,8 +6,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
+    "dotenv-webpack": "^1.5.5",
     "jquery": "^3.3.1",
-    "path": "^0.12.7",
     "popper.js": "^1.14.3",
     "vue": "^2.5.16"
   },

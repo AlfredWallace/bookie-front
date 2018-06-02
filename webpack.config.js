@@ -1,8 +1,8 @@
-const path = require('path');
 const Mcx = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     module: {
@@ -35,7 +35,8 @@ module.exports = {
             template: './src/index.html',
             filename: 'index.html'
         }),
-        new WebpackMd5Hash()
+        new WebpackMd5Hash(),
+        new Dotenv()
     ],
     resolve: {
         alias: {

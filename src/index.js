@@ -186,7 +186,7 @@ new Vue({
     el: '#main-container',
     data: {
         loggedIn: false,
-        apiBaseUrl: 'http://local.bookie-api.alfred-wallace.com',
+        apiBaseUrl: process.env.BOOKIE_API_URL,
         token: null,
         userId: null
     },
