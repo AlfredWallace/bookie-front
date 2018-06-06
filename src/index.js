@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Axios from 'axios'
+import Notifications from 'vue-notification'
 import './scss/bookie.scss';
 
 Vue.component('login-form', {
@@ -50,8 +51,8 @@ Vue.component('login-form', {
             let loginForm = this;
             loginForm.loading = true;
             Axios.post(loginForm.apiBaseUrl + '/users/new', {
-               username: this.userLogin,
-               password: this.userPassword
+                username: this.userLogin,
+                password: this.userPassword
             }).then(function (response) {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
                     loginForm.connect();
@@ -103,15 +104,20 @@ Vue.component('match', {
         return {
             flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
             homeScore: null,
-            awayScore: null
+            awayScore: null,
+            loading: false,
+            notificationOptions: {
+                position: 'bottom center',
+                width: '100%'
+            }
         };
     },
     props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
     methods: {
         saveBet: function () {
             let matchComponent = this;
-            Axios.post(
-                this.apiBaseUrl + '/bets/group-stage',
+            matchComponent.loading = true;
+            Axios.post(this.apiBaseUrl + '/bets/group-stage',
                 {
                     user: matchComponent.userId,
                     match: matchComponent.match.id,
@@ -122,7 +128,20 @@ Vue.component('match', {
                     headers: {
                         Authorization: `Bearer ${this.token}`
                     }
+                }
+            ).then(function () {
+                matchComponent.loading = false;
+                matchComponent.$notify({
+                    type: 'success',
+                    text: 'Pari sauvegardé !'
                 });
+            }).catch(function () {
+                matchComponent.loading = false;
+                matchComponent.$notify({
+                    type: 'error',
+                    text: 'Oups, erreur :|'
+                });
+            });
         }
     },
     computed: {
@@ -153,7 +172,7 @@ Vue.component('match', {
                                 <div class="w-25 ml-3 bk-team-name">{{ match.home_team.abbreviation }}</div>
                                 <div class="w-25 ml-auto">
                                     <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
-                                        v-model="homeScore">
+                                        v-model="homeScore" :readonly="loading == true">
                                 </div>
                             </div>
                         </div>
@@ -165,13 +184,13 @@ Vue.component('match', {
                                 <div class="w-25 ml-3 bk-team-name">{{ match.away_team.abbreviation }}</div>       
                                 <div class="w-25 ml-auto">
                                     <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
-                                        v-model="awayScore">
+                                        v-model="awayScore" :readonly="loading == true">
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col">
-                                <button class="btn btn-lg btn-block btn-success" 
+                                <button class="btn btn-lg btn-block btn-success" :disabled="loading == true"
                                     @click="saveBet">Enregistrer mon pari</button>
                             </div>
                         </div>
@@ -181,6 +200,8 @@ Vue.component('match', {
          </div>
     `
 });
+
+Vue.use(Notifications);
 
 new Vue({
     el: '#main-container',

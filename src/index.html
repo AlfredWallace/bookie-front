@@ -19,6 +19,8 @@
 <div id="main-container" class="container h-100">
     <match-list v-if="loggedIn" :api-base-url="apiBaseUrl" :token="token" :user-id="userId"></match-list>
     <login-form v-else :api-base-url="apiBaseUrl"></login-form>
+
+    <notifications width="100%" position="bottom center" />
 </div>
 <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
