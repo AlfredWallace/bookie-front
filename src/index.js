@@ -149,8 +149,7 @@ Vue.component('match', {
                 }
                 matchComponent.$notify({
                     type: 'error',
-                    text: errMsg,
-                    duration: 100000
+                    text: errMsg
                 });
             });
         }
