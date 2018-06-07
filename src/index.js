@@ -139,11 +139,18 @@ Vue.component('match', {
                     type: 'success',
                     text: 'Pari sauvegardé !'
                 });
-            }).catch(function () {
+            }).catch(function (error) {
                 matchComponent.loading = false;
+                let errMsg = 'Erreur inconnue !';
+                if (error.hasOwnProperty('response')
+                    && error.response.hasOwnProperty('data')
+                    && error.response.data.hasOwnProperty('message')) {
+                    errMsg = error.response.data.message;
+                }
                 matchComponent.$notify({
                     type: 'error',
-                    text: 'Oups, erreur :|'
+                    text: errMsg,
+                    duration: 100000
                 });
             });
         }

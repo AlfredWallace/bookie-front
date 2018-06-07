@@ -20,7 +20,7 @@
     <match-list v-if="loggedIn" :api-base-url="apiBaseUrl" :token="token" :user-id="userId"></match-list>
     <login-form v-else :api-base-url="apiBaseUrl"></login-form>
 
-    <notifications width="100%" position="top center" />
+    <notifications width="100%" position="top center" classes="bk-notification" />
 </div>
 <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
