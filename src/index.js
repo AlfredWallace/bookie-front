@@ -83,7 +83,7 @@ Vue.component('match-list', {
     methods: {
         getMatches: function() {
             let matchList = this;
-            Axios.get(this.apiBaseUrl + '/matches', {
+            Axios.get(this.apiBaseUrl + '/matches-bets/' + this.userId, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }
@@ -105,12 +105,16 @@ Vue.component('match', {
             flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
             homeScore: null,
             awayScore: null,
-            loading: false,
-            notificationOptions: {
-                position: 'bottom center',
-                width: '100%'
-            }
+            loading: false
         };
+    },
+    created: function () {
+        if (this.match.hasOwnProperty('home_bet')) {
+            this.homeScore = this.match.home_bet;
+        }
+        if (this.match.hasOwnProperty('away_bet')) {
+            this.awayScore = this.match.away_bet;
+        }
     },
     props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
     methods: {
