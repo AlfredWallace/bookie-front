@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Axios from 'axios'
 import Notifications from 'vue-notification'
+import Cookie from 'vue-cookie'
 import './scss/bookie.scss';
 
 Vue.component('login-form', {
@@ -41,6 +42,7 @@ Vue.component('login-form', {
                 password: this.userPassword
             }).then(function(response) {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
+                    loginForm.$cookie.set('BEARER', response.data.token, { expires: 7});
                     loginForm.$root.$emit('logged-in', response.data.token);
                 }
             }).catch(function () {
@@ -212,6 +214,7 @@ Vue.component('match', {
 });
 
 Vue.use(Notifications);
+Vue.use(Cookie);
 
 new Vue({
     el: '#main-container',
@@ -222,7 +225,18 @@ new Vue({
         userId: null
     },
     created: function () {
+        let token = this.$cookie.get('BEARER');
+        if (token !== null) {
+            this.logIn(token);
+        }
+    },
+    mounted: function () {
         this.$on('logged-in', function (token) {
+            this.logIn(token);
+        });
+    },
+    methods: {
+        logIn: function (token) {
             this.loggedIn = true;
             this.token = token;
             let decodedToken = JSON.parse(window.atob(token.split('.')[1]));
@@ -231,6 +245,6 @@ new Vue({
             } else {
                 this.userId = null;
             }
-        });
+        }
     }
 });
