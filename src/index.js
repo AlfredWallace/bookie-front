@@ -217,7 +217,7 @@ Vue.use(Notifications);
 Vue.use(Cookie);
 
 new Vue({
-    el: '#main-container',
+    el: '#body',
     data: {
         loggedIn: false,
         apiBaseUrl: process.env.BOOKIE_API_URL,
@@ -245,6 +245,10 @@ new Vue({
             } else {
                 this.userId = null;
             }
+        },
+        logOut: function () {
+            this.loggedIn = false;
+            this.$cookie.delete('BEARER');
         }
     }
 });
