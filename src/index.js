@@ -18,14 +18,16 @@ Vue.component('login-form', {
             <div class="col-md-6 col-lg-4">
                 <div class="form-group">
                     <input type="text" v-model="userLogin" placeholder="Username" :disabled="loading == true"
-                           class="form-control form-control-lg">
+                           class="form-control form-control-lg" @keyup.enter="connect">
                 </div>
                 <div class="form-group">
                     <input type="password" v-model="userPassword" placeholder="Password" :disabled="loading == true"
-                           class="form-control form-control-lg">
+                           class="form-control form-control-lg" @keyup.enter="connect">
                 </div>
                 <div class="d-flex">
-                    <button @click="connect" :disabled="loading == true" class="btn btn-info">Se connecter</button>
+                    <button @click="connect" :disabled="loading == true" class="btn btn-info">
+                        Se connecter
+                    </button>
                     <button @click="createAccount" :disabled="loading == true" class="btn btn-link ml-auto">
                         Créer un compte
                     </button>
