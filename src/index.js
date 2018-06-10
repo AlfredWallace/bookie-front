@@ -93,6 +93,8 @@ Vue.component('match-list', {
                 if (response.hasOwnProperty('data')) {
                     matchList.matches = response.data;
                 }
+            }).catch(function () {
+                matchList.$root.$emit('logged-out');
             });
         }
     },
@@ -222,6 +224,7 @@ new Vue({
         loggedIn: false,
         apiBaseUrl: process.env.BOOKIE_API_URL,
         token: null,
+        payload: null,
         userId: null
     },
     created: function () {
@@ -234,16 +237,30 @@ new Vue({
         this.$on('logged-in', function (token) {
             this.logIn(token);
         });
+        this.$on('logged-out', function () {
+            this.logOut();
+        })
     },
     methods: {
+        isTokenExpired: function () {
+            if (this.payload !== null && this.payload.hasOwnProperty('exp')) {
+                let currentTimestamp = (new Date()).getTime() / 1000;
+                if (this.payload.exp > currentTimestamp) {
+                    return false;
+                }
+            }
+            return true;
+        },
         logIn: function (token) {
-            this.loggedIn = true;
             this.token = token;
-            let decodedToken = JSON.parse(window.atob(token.split('.')[1]));
-            if (decodedToken.hasOwnProperty('userId')) {
-                this.userId = decodedToken.userId;
-            } else {
-                this.userId = null;
+            this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
+            if (!this.isTokenExpired()) {
+                this.loggedIn = true;
+                if (this.payload.hasOwnProperty('userId')) {
+                    this.userId = this.payload.userId;
+                } else {
+                    this.userId = null;
+                }
             }
         },
         logOut: function () {
