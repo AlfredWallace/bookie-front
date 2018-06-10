@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     module: {
@@ -10,16 +11,16 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader"
-                }
+                loader: 'babel-loader'
             },
             {
                 test: /\.vue$/,
-                loader: "vue-loader"
+                exclude: /node_modules/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.scss$/,
+                exclude: /node_modules/,
                 use: ['style-loader', Mcx.loader, 'css-loader', 'sass-loader']
             }
         ]
@@ -36,7 +37,8 @@ module.exports = {
             filename: 'index.html'
         }),
         new WebpackMd5Hash(),
-        new Dotenv()
+        new Dotenv(),
+        new CopyWebpackPlugin([ {from: 'src/img/*', to: 'img/', flatten: true } ])
     ],
     resolve: {
         alias: {
