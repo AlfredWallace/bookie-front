@@ -18,14 +18,14 @@ Vue.component('login-form', {
             <div class="col-md-6 col-lg-4">
                 <div class="form-group">
                     <input type="text" v-model="userLogin" placeholder="Username" :disabled="loading == true"
-                           class="form-control form-control-lg" @keyup.enter="connect">
+                           class="form-control form-control-lg" @keyup.enter="connectPlayer">
                 </div>
                 <div class="form-group">
                     <input type="password" v-model="userPassword" placeholder="Password" :disabled="loading == true"
-                           class="form-control form-control-lg" @keyup.enter="connect">
+                           class="form-control form-control-lg" @keyup.enter="connectPlayer">
                 </div>
                 <div class="d-flex">
-                    <button @click="connect" :disabled="loading == true" class="btn btn-info">
+                    <button @click="connectPlayer" :disabled="loading == true" class="btn btn-info">
                         Se connecter
                     </button>
                     <button @click="createAccount" :disabled="loading == true" class="btn btn-link ml-auto">
@@ -36,7 +36,7 @@ Vue.component('login-form', {
         </div>
     `,
     methods: {
-        connect: function() {
+        connectPlayer: function() {
             let loginForm = this;
             loginForm.loading = true;
             Axios.post(loginForm.apiBaseUrl + '/login_check', {
@@ -59,7 +59,7 @@ Vue.component('login-form', {
                 password: this.userPassword
             }).then(function (response) {
                 if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
-                    loginForm.connect();
+                    loginForm.connectPlayer();
                 }
             }).catch(function () {
                 loginForm.loading = false;
@@ -87,7 +87,7 @@ Vue.component('match-list', {
     methods: {
         getMatches: function() {
             let matchList = this;
-            Axios.get(this.apiBaseUrl + '/matches-bets/' + this.userId, {
+            Axios.get(this.apiBaseUrl + '/matches/' + this.userId, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }
