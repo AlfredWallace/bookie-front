@@ -37,9 +37,11 @@
                         <span class="d-none d-md-inline">classement</span>
                     </button>
                 </div>
-                <div class="col-6" @click="showMatchList">
-                    <span class="d-inline d-md-none">AWB</span>
-                    <span class="d-none d-md-inline">Alfred Wallace Bookie</span>
+                <div class="col-6">
+                    <button class="btn btn-lg btn-link text-white" @click="showMatchList">
+                        <span class="d-inline d-md-none">AWB</span>
+                        <span class="d-none d-md-inline">Alfred Wallace Bookie</span>
+                    </button>
                 </div>
                 <div class="col-3">
                     <button class="btn btn-link text-white" @click="logOut" v-if="loggedIn">
