@@ -31,12 +31,18 @@
     <div id="header" class="fixed-top bk-header bg-info text-light p-2">
         <div class="container-fluid text-center">
             <div class="row">
-                <div class="col-6 offset-3">
+                <div class="col-3">
+                    <button class="btn btn-link text-white" @click="showRankList" v-if="loggedIn">
+                        <span class="d-inline d-md-none">C</span>
+                        <span class="d-none d-md-inline">classement</span>
+                    </button>
+                </div>
+                <div class="col-6" @click="showMatchList">
                     <span class="d-inline d-md-none">AWB</span>
                     <span class="d-none d-md-inline">Alfred Wallace Bookie</span>
                 </div>
                 <div class="col-3">
-                    <button class="btn btn-link text-white" @click="logOut">
+                    <button class="btn btn-link text-white" @click="logOut" v-if="loggedIn">
                         <span class="d-inline d-md-none">X</span>
                         <span class="d-none d-md-inline">déconnexion</span>
                     </button>
@@ -45,10 +51,12 @@
         </div>
     </div>
     <div id="main-container" class="container h-100">
-        <match-list v-if="loggedIn" :api-base-url="apiBaseUrl" :token="token" :user-id="userId"></match-list>
+        <match-list v-if="loggedIn && page === 'match-list'" :api-base-url="apiBaseUrl" :token="token"
+                    :user-id="userId"></match-list>
+        <rank-list v-else-if="loggedIn && page === 'rank-list'" :api-base-url="apiBaseUrl" :token="token"
+                  :user-id="userId"></rank-list>
         <login-form v-else :api-base-url="apiBaseUrl"></login-form>
-
-        <notifications width="100%" position="top center" classes="bk-notification" />
+        <notifications width="100%" position="top center" classes="bk-notification"></notifications>
     </div>
 </div>
 <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>

@@ -217,6 +217,55 @@ Vue.component('match', {
     `
 });
 
+Vue.component('rank-list', {
+    data: function () {
+        return {
+            users: null
+        };
+    },
+    props: ['apiBaseUrl', 'token', 'userId'],
+    template: `
+        <div class="row bk-header-shift">
+            <div class="col">
+                <table class="table table-striped table-sm">
+                <thead>
+                    <tr><th>Joueur</th><th>Points</th></tr>
+                </thead>
+                <tbody>
+                    <rank v-for="user in users" :name="user.username" :points="user.points" :key="user.id"></rank>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    `,
+    methods: {
+        getUsers: function() {
+            let rankList = this;
+            Axios.get(this.apiBaseUrl + '/users', {
+                headers: {
+                    Authorization: `Bearer ${this.token}`
+                }
+            }).then(function (response) {
+                if (response.hasOwnProperty('data')) {
+                    rankList.users = response.data;
+                }
+            }).catch(function () {
+                rankList.$root.$emit('logged-out');
+            });
+        }
+    },
+    created: function () {
+        this.getUsers();
+    }
+});
+
+Vue.component('rank', {
+    props: ['name', 'points'],
+    template: `
+        <tr><td>{{ name }}</td><td>{{ points }}</td></tr>
+    `
+});
+
 Vue.use(Notifications);
 Vue.use(Cookie);
 
@@ -227,7 +276,8 @@ new Vue({
         apiBaseUrl: process.env.BOOKIE_API_URL,
         token: null,
         payload: null,
-        userId: null
+        userId: null,
+        page: null
     },
     created: function () {
         let token = this.$cookie.get('BEARER');
@@ -244,6 +294,12 @@ new Vue({
         })
     },
     methods: {
+        showRankList: function () {
+            this.page = 'rank-list';
+        },
+        showMatchList: function () {
+            this.page = 'match-list';
+        },
         isTokenExpired: function () {
             if (this.payload !== null && this.payload.hasOwnProperty('exp')) {
                 let currentTimestamp = (new Date()).getTime() / 1000;
@@ -258,6 +314,7 @@ new Vue({
             this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
             if (!this.isTokenExpired()) {
                 this.loggedIn = true;
+                this.page = 'match-list';
                 if (this.payload.hasOwnProperty('userId')) {
                     this.userId = this.payload.userId;
                 } else {
