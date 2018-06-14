@@ -190,7 +190,7 @@ Vue.component('match', {
                         <div class="row align-items-center justify-content-center">
                             <div class="col d-flex justify-content-start align-items-center text-uppercase">
                                 <div class="w-25">
-                                    <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation">
+                                    <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation" />
                                 </div>
                                 <div class="w-25 ml-3 bk-team-name">{{ match.home_team.abbreviation }}</div>
                                 <div class="w-25 ml-auto">
@@ -202,7 +202,7 @@ Vue.component('match', {
                         <div class="row align-items-center justify-content-center">
                             <div class="col d-flex justify-content-start align-items-center text-uppercase">
                                 <div class="w-25">
-                                    <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation">
+                                    <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation" />
                                 </div>
                                 <div class="w-25 ml-3 bk-team-name">{{ match.away_team.abbreviation }}</div>       
                                 <div class="w-25 ml-auto">
@@ -273,6 +273,11 @@ Vue.component('rank', {
     `
 });
 
+Vue.component('admin', {
+    props: ['apiBaseUrl', 'token', 'userId'],
+    template:`<div class="bk-header-shift">Admin</div>`
+});
+
 Vue.use(Notifications);
 Vue.use(Cookie);
 
@@ -307,6 +312,9 @@ new Vue({
         },
         showMatchList: function () {
             this.page = 'match-list';
+        },
+        showAdmin: function () {
+            this.page = 'admin';
         },
         isTokenExpired: function () {
             if (this.payload !== null && this.payload.hasOwnProperty('exp')) {

@@ -35,6 +35,10 @@
                     <font-awesome-icon icon="user-slash" class="fa-lg"></font-awesome-icon>
                     <span class="d-none d-md-inline">Déconnexion</span>
                 </a>
+                <a v-if="isAdmin" class="nav-item nav-link" :class="{ active: page === 'admin' }" href="#" @click="showAdmin">
+                    <font-awesome-icon icon="unlock" class="fa-lg"></font-awesome-icon>
+                    <span class="d-none d-md-inline">Admin</span>
+                </a>
                 <a class="nav-item nav-link" :class="{ active: page === 'match-list' }" href="#" @click="showMatchList">
                     <font-awesome-icon icon="futbol" class="fa-lg"></font-awesome-icon>
                     <span class="d-none d-md-inline">Matchs</span>
@@ -53,7 +57,9 @@
         <match-list v-if="loggedIn && page === 'match-list'" :api-base-url="apiBaseUrl" :token="token"
                     :user-id="userId"></match-list>
         <rank-list v-else-if="loggedIn && page === 'rank-list'" :api-base-url="apiBaseUrl" :token="token"
-                   :user-id="userId"></rank-list>
+                    :user-id="userId"></rank-list>
+        <admin v-else-if="loggedIn && page === 'admin'" :api-base-url="apiBaseUrl" :token="token"
+                    :user-id="userId"></admin>
         <login-form v-else :api-base-url="apiBaseUrl"></login-form>
         <notifications width="100%" position="top center" classes="bk-notification"></notifications>
     </div>
