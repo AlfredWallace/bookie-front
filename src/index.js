@@ -3,6 +3,13 @@ import Axios from 'axios'
 import Notifications from 'vue-notification'
 import Cookie from 'vue-cookie'
 import './scss/bookie.scss';
+import fontawesome from '@fortawesome/fontawesome';
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import solid from '@fortawesome/fontawesome-free-solid';
+
+fontawesome.library.add(solid);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.component('login-form', {
     data: function() {
@@ -277,7 +284,8 @@ new Vue({
         token: null,
         payload: null,
         userId: null,
-        page: null
+        page: null,
+        isAdmin: false
     },
     created: function () {
         let token = this.$cookie.get('BEARER');
@@ -317,8 +325,9 @@ new Vue({
                 this.page = 'match-list';
                 if (this.payload.hasOwnProperty('userId')) {
                     this.userId = this.payload.userId;
-                } else {
-                    this.userId = null;
+                }
+                if (this.payload.hasOwnProperty('roles') && this.payload.roles.hasOwnProperty('ROLE_ADMIN')) {
+                    this.isAdmin = true;
                 }
             }
         },

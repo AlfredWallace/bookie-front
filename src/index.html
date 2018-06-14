@@ -28,35 +28,32 @@
 </head>
 <body>
 <div id="body" class="h-100">
-    <div id="header" class="fixed-top bk-header bg-info text-light p-2">
-        <div class="container-fluid text-center">
-            <div class="row">
-                <div class="col-3">
-                    <button class="btn btn-link text-white" @click="showRankList" v-if="loggedIn">
-                        <span class="d-inline d-md-none">C</span>
-                        <span class="d-none d-md-inline">classement</span>
-                    </button>
-                </div>
-                <div class="col-6">
-                    <button class="btn btn-lg btn-link text-white" @click="showMatchList">
-                        <span class="d-inline d-md-none">AWB</span>
-                        <span class="d-none d-md-inline">Alfred Wallace Bookie</span>
-                    </button>
-                </div>
-                <div class="col-3">
-                    <button class="btn btn-link text-white" @click="logOut" v-if="loggedIn">
-                        <span class="d-inline d-md-none">X</span>
-                        <span class="d-none d-md-inline">déconnexion</span>
-                    </button>
-                </div>
+    <nav class="navbar navbar-expand bg-info navbar-dark fixed-top bk-header">
+        <div class="container">
+            <div v-if="loggedIn" class="navbar-nav w-100 d-flex">
+                <a class="nav-item nav-link mr-auto" href="#" @click="logOut">
+                    <font-awesome-icon icon="user-slash" class="fa-lg"></font-awesome-icon>
+                    <span class="d-none d-md-inline">Déconnexion</span>
+                </a>
+                <a class="nav-item nav-link" :class="{ active: page === 'match-list' }" href="#" @click="showMatchList">
+                    <font-awesome-icon icon="futbol" class="fa-lg"></font-awesome-icon>
+                    <span class="d-none d-md-inline">Matchs</span>
+                </a>
+                <a class="nav-item nav-link" :class="{ active: page === 'rank-list' }" href="#" @click="showRankList">
+                    <font-awesome-icon icon="list-ol" class="fa-lg"></font-awesome-icon>
+                    <span class="d-none d-md-inline">Classement</span>
+                </a>
             </div>
+            <span v-else class="navbar-brand w-100 text-center">
+                Alfred Wallace Bookie
+            </span>
         </div>
-    </div>
+    </nav>
     <div id="main-container" class="container h-100">
         <match-list v-if="loggedIn && page === 'match-list'" :api-base-url="apiBaseUrl" :token="token"
                     :user-id="userId"></match-list>
         <rank-list v-else-if="loggedIn && page === 'rank-list'" :api-base-url="apiBaseUrl" :token="token"
-                  :user-id="userId"></rank-list>
+                   :user-id="userId"></rank-list>
         <login-form v-else :api-base-url="apiBaseUrl"></login-form>
         <notifications width="100%" position="top center" classes="bk-notification"></notifications>
     </div>
