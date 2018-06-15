@@ -75,7 +75,7 @@ Vue.component('login-form', {
     }
 });
 
-Vue.component('match-list', {
+Vue.component('match-bet-list', {
     data: function() {
         return {
             matches: null,
@@ -87,8 +87,8 @@ Vue.component('match-list', {
     props: ['apiBaseUrl', 'token', 'userId'],
     template: `
         <div class="row bk-header-shift">
-            <match v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
-                :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match>
+            <match-bet v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
+                :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-bet>
         </div>
     `,
     methods: {
@@ -112,7 +112,7 @@ Vue.component('match-list', {
     }
 });
 
-Vue.component('match', {
+let matchMixin = {
     data: function() {
         return {
             flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
@@ -130,43 +130,6 @@ Vue.component('match', {
         }
     },
     props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
-    methods: {
-        saveBet: function () {
-            let matchComponent = this;
-            matchComponent.loading = true;
-            Axios.post(this.apiBaseUrl + '/bets/group-stage',
-                {
-                    user: matchComponent.userId,
-                    match: matchComponent.match.id,
-                    home_score: this.homeScore,
-                    away_score: this.awayScore
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.token}`
-                    }
-                }
-            ).then(function () {
-                matchComponent.loading = false;
-                matchComponent.$notify({
-                    type: 'success',
-                    text: 'Pari sauvegardé !'
-                });
-            }).catch(function (error) {
-                matchComponent.loading = false;
-                let errMsg = 'Erreur inconnue !';
-                if (error.hasOwnProperty('response')
-                    && error.response.hasOwnProperty('data')
-                    && error.response.data.hasOwnProperty('message')) {
-                    errMsg = error.response.data.message;
-                }
-                matchComponent.$notify({
-                    type: 'error',
-                    text: errMsg
-                });
-            });
-        }
-    },
     computed: {
         formatedKickOff: function () {
             let kickOffDate = new Date(this.match.kick_off);
@@ -214,7 +177,7 @@ Vue.component('match', {
                         <div class="row mt-2">
                             <div class="col">
                                 <button class="btn btn-lg btn-block btn-success" :disabled="loading == true"
-                                    @click="saveBet">Enregistrer mon pari</button>
+                                    @click="saveResult">{{ btnSaveLabel }}</button>
                             </div>
                         </div>
                     </div>
@@ -222,6 +185,52 @@ Vue.component('match', {
             </div>
          </div>
     `
+};
+
+Vue.component('match-bet', {
+    mixins: [matchMixin],
+    data: function () {
+        return {
+            btnSaveLabel: 'Enregistrer mon pari'
+        };
+    },
+    methods: {
+        saveResult: function () {
+            let matchComponent = this;
+            matchComponent.loading = true;
+            Axios.post(this.apiBaseUrl + '/bets/group-stage',
+                {
+                    user: matchComponent.userId,
+                    match: matchComponent.match.id,
+                    home_score: this.homeScore,
+                    away_score: this.awayScore
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                }
+            ).then(function () {
+                matchComponent.loading = false;
+                matchComponent.$notify({
+                    type: 'success',
+                    text: 'Pari sauvegardé !'
+                });
+            }).catch(function (error) {
+                matchComponent.loading = false;
+                let errMsg = 'Erreur inconnue !';
+                if (error.hasOwnProperty('response')
+                    && error.response.hasOwnProperty('data')
+                    && error.response.data.hasOwnProperty('message')) {
+                    errMsg = error.response.data.message;
+                }
+                matchComponent.$notify({
+                    type: 'error',
+                    text: errMsg
+                });
+            });
+        }
+    }
 });
 
 Vue.component('rank-list', {
@@ -311,7 +320,7 @@ new Vue({
             this.page = 'rank-list';
         },
         showMatchList: function () {
-            this.page = 'match-list';
+            this.page = 'match-bet-list';
         },
         showAdmin: function () {
             this.page = 'admin';
