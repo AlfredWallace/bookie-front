@@ -211,8 +211,8 @@ Vue.component('match-bet', {
                 {
                     user: matchComponent.userId,
                     match: matchComponent.match.id,
-                    home_score: this.homeScore,
-                    away_score: this.awayScore
+                    home_score: this.homeScore === '' ? 0 : this.homeScore,
+                    away_score: this.awayScore === '' ? 0 : this.awayScore
                 },
                 {
                     headers: {
