@@ -116,7 +116,7 @@ Vue.component('match-bet-list', {
     template: `
         <div class="row bk-header-shift">
             <match-bet v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
-                :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-bet>
+                   :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-bet>
         </div>
     `
 });
@@ -152,7 +152,7 @@ let matchMixin = {
         }
     },
     template: `
-         <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card border-info">
                 <div class="card-header text-center text-white bg-info bk-match-card-header">
                     {{ formatedKickOff }}
@@ -185,14 +185,14 @@ let matchMixin = {
                         </div>
                         <div class="row mt-2">
                             <div class="col">
-                                <button class="btn btn-lg btn-block btn-success" :disabled="loading == true"
+                                <button class="btn btn-lg btn-block" :class="btnColor" :disabled="loading == true"
                                     @click="saveResult">{{ btnSaveLabel }}</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-         </div>
+        </div>
     `
 };
 
@@ -200,7 +200,8 @@ Vue.component('match-bet', {
     mixins: [matchMixin],
     data: function () {
         return {
-            btnSaveLabel: 'Enregistrer mon pari'
+            btnSaveLabel: 'Enregistrer mon pari',
+            btnColor: 'btn-success'
         };
     },
     methods: {
@@ -292,8 +293,32 @@ Vue.component('rank', {
 });
 
 Vue.component('admin', {
-    props: ['apiBaseUrl', 'token', 'userId'],
-    template:`<div class="bk-header-shift">Admin</div>`
+    data: function () {
+        return {
+            getMatchRoute: '/matches-started'
+        };
+    },
+    mixins: [matchListMixin],
+    template: `
+        <div class="row bk-header-shift">
+            <match-admin v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
+                   :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-admin>
+        </div>
+    `
+});
+
+Vue.component('match-admin', {
+    mixins: [matchMixin],
+    data: function () {
+        return {
+            btnSaveLabel: 'Terminer le match',
+            btnColor: 'btn-danger'
+        };
+    },
+    methods: {
+        saveResult: function () {
+        }
+    }
 });
 
 Vue.use(Notifications);

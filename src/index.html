@@ -55,12 +55,17 @@
     </nav>
     <div id="main-container" class="container h-100">
         <match-bet-list v-if="loggedIn && page === 'match-bet-list'" :api-base-url="apiBaseUrl" :token="token"
-                    :user-id="userId"></match-bet-list>
+                        :user-id="userId">
+        </match-bet-list>
+
         <rank-list v-else-if="loggedIn && page === 'rank-list'" :api-base-url="apiBaseUrl" :token="token"
-                    :user-id="userId"></rank-list>
+                   :user-id="userId"></rank-list>
+
         <admin v-else-if="loggedIn && page === 'admin'" :api-base-url="apiBaseUrl" :token="token"
-                    :user-id="userId"></admin>
+               :user-id="userId"></admin>
+
         <login-form v-else :api-base-url="apiBaseUrl"></login-form>
+
         <notifications width="100%" position="top center" classes="bk-notification"></notifications>
     </div>
 </div>
