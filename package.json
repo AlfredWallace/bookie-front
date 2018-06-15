@@ -41,7 +41,7 @@
     "webpack-md5-hash": "0.0.6"
   },
   "scripts": {
-    "wpdev": "webpack --mode development",
+    "wpdev": "webpack --mode development --watch",
     "webpack-production-deployment": "webpack --mode production"
   },
   "repository": {
