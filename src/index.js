@@ -75,7 +75,7 @@ Vue.component('login-form', {
     }
 });
 
-Vue.component('match-bet-list', {
+let matchListMixin = {
     data: function() {
         return {
             matches: null,
@@ -85,16 +85,13 @@ Vue.component('match-bet-list', {
         };
     },
     props: ['apiBaseUrl', 'token', 'userId'],
-    template: `
-        <div class="row bk-header-shift">
-            <match-bet v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
-                :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-bet>
-        </div>
-    `,
+    created: function () {
+        this.getMatches();
+    },
     methods: {
         getMatches: function() {
             let matchList = this;
-            Axios.get(this.apiBaseUrl + '/matches/' + this.userId, {
+            Axios.get(this.apiBaseUrl + this.getMatchRoute, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }
@@ -106,10 +103,22 @@ Vue.component('match-bet-list', {
                 matchList.$root.$emit('logged-out');
             });
         }
-    },
-    created: function () {
-        this.getMatches();
     }
+};
+
+Vue.component('match-bet-list', {
+    data: function () {
+        return {
+            getMatchRoute: '/matches-bets/' + this.userId
+        };
+    },
+    mixins: [matchListMixin],
+    template: `
+        <div class="row bk-header-shift">
+            <match-bet v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
+                :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-bet>
+        </div>
+    `
 });
 
 let matchMixin = {
