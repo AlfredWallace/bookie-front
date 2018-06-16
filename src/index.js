@@ -125,18 +125,10 @@ let matchMixin = {
     data: function() {
         return {
             flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
-            homeScore: null,
-            awayScore: null,
+            homeScore: this.match.home_score,
+            awayScore: this.match.away_score,
             loading: false
         };
-    },
-    created: function () {
-        if (this.match.hasOwnProperty('home_bet')) {
-            this.homeScore = this.match.home_bet;
-        }
-        if (this.match.hasOwnProperty('away_bet')) {
-            this.awayScore = this.match.away_bet;
-        }
     },
     props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
     computed: {
@@ -198,6 +190,14 @@ let matchMixin = {
 
 Vue.component('match-bet', {
     mixins: [matchMixin],
+    created: function () {
+        if (this.match.hasOwnProperty('home_bet')) {
+            this.homeScore = this.match.home_bet;
+        }
+        if (this.match.hasOwnProperty('away_bet')) {
+            this.awayScore = this.match.away_bet;
+        }
+    },
     data: function () {
         return {
             btnSaveLabel: 'Enregistrer mon pari',
@@ -311,12 +311,43 @@ Vue.component('match-admin', {
     mixins: [matchMixin],
     data: function () {
         return {
-            btnSaveLabel: 'Terminer le match',
+            btnSaveLabel: 'Clôturer le match',
             btnColor: 'btn-danger'
         };
     },
     methods: {
         saveResult: function () {
+            let matchComponent = this;
+            matchComponent.loading = true;
+            Axios.post(this.apiBaseUrl + '/matches/' + matchComponent.match.id + '/end',
+                {
+                    home_score: this.homeScore === '' ? 0 : this.homeScore,
+                    away_score: this.awayScore === '' ? 0 : this.awayScore
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                }
+            ).then(function () {
+                matchComponent.loading = false;
+                matchComponent.$notify({
+                    type: 'success',
+                    text: 'Match clôturé !'
+                });
+            }).catch(function (error) {
+                matchComponent.loading = false;
+                let errMsg = 'Erreur inconnue !';
+                if (error.hasOwnProperty('response')
+                    && error.response.hasOwnProperty('data')
+                    && error.response.data.hasOwnProperty('message')) {
+                    errMsg = error.response.data.message;
+                }
+                matchComponent.$notify({
+                    type: 'error',
+                    text: errMsg
+                });
+            });
         }
     }
 });
