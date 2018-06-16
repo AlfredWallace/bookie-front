@@ -79,7 +79,7 @@
         <admin v-else-if="loggedIn && page === 'admin'" :api-base-url="apiBaseUrl" :token="token"
                :user-id="userId"></admin>
 
-        <login-form v-else :api-base-url="apiBaseUrl"></login-form>
+        <login-form v-else-if="loggedIn !== true" :api-base-url="apiBaseUrl"></login-form>
 
         <notifications width="100%" position="top center" classes="bk-notification"></notifications>
     </div>
