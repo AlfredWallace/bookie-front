@@ -301,7 +301,7 @@ Vue.component('match-history', {
                         
                         <div v-if="match.bets.length > 0" class="row bk-bets">
                             <div class="col">
-                                <table class="table table-striped table-sm text-secondary">
+                                <table class="table table-sm text-secondary">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -311,7 +311,7 @@ Vue.component('match-history', {
                                 </thead>
                                 <tbody>
                                     <bet v-for="bet in match.bets" :bet="bet" :points="bet.points" :key="bet.id"
-                                        :user-id="userId"></bet>
+                                        :user-id="userId" :match="match"></bet>
                                 </tbody>
                                 </table>
                             </div>
@@ -324,9 +324,18 @@ Vue.component('match-history', {
 });
 
 Vue.component('bet', {
-    props: ['bet', 'userId'],
+    data: function () {
+        return {
+            classObject: {
+                'text-success': this.match.is_over && this.bet.points > 0,
+                'text-danger': this.match.is_over && this.bet.points === 0,
+                'bg-light': this.userId === this.bet.user.id
+            }
+        };
+    },
+    props: ['bet', 'userId', 'match'],
     template:`
-        <tr :class="{ 'text-success': this.userId === bet.user.id }">
+        <tr :class="classObject">
             <td>{{ bet.user.username.length > 10 ? bet.user.username.substring(0,7) + '...' : bet.user.username }}</td>
             <td class="text-center">{{ bet.home_score }} - {{ bet.away_score }}</td>
             <td class="text-right">{{ bet.points }}</td>
