@@ -31,22 +31,35 @@
     <nav class="navbar navbar-expand bg-info navbar-dark fixed-top bk-header">
         <div class="container">
             <div v-if="loggedIn" class="navbar-nav w-100 d-flex">
+
                 <a class="nav-item nav-link mr-auto" href="#" @click="logOut">
                     <font-awesome-icon icon="user-slash" class="fa-lg"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Déconnexion</span>
+                    <span :class="responsiveDisplay">Déconnexion</span>
                 </a>
-                <a v-if="isAdmin" class="nav-item nav-link" :class="{ active: page === 'admin' }" href="#" @click="showAdmin">
+                <a v-if="isAdmin" class="nav-item nav-link" :class="{ active: page === 'admin' }" href="#"
+                   @click="showAdmin">
                     <font-awesome-icon icon="unlock" class="fa-lg"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Admin</span>
+                    <span :class="responsiveDisplay">Admin</span>
                 </a>
-                <a class="nav-item nav-link" :class="{ active: page === 'match-bet-list' }" href="#" @click="showMatchList">
+
+                <a class="nav-item nav-link" :class="{ active: page === 'match-history-list' }" href="#"
+                   @click="showMatchHistoryList">
+                    <font-awesome-icon icon="history" class="fa-lg"></font-awesome-icon>
+                    <span :class="responsiveDisplay">Historique</span>
+                </a>
+
+                <a class="nav-item nav-link" :class="{ active: page === 'match-bet-list' }" href="#"
+                   @click="showMatchBetList">
                     <font-awesome-icon icon="futbol" class="fa-lg"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Matchs</span>
+                    <span :class="responsiveDisplay">Matchs</span>
                 </a>
-                <a class="nav-item nav-link" :class="{ active: page === 'rank-list' }" href="#" @click="showRankList">
+
+                <a class="nav-item nav-link" :class="{ active: page === 'rank-list' }" href="#"
+                   @click="showRankList">
                     <font-awesome-icon icon="list-ol" class="fa-lg"></font-awesome-icon>
-                    <span class="d-none d-md-inline">Classement</span>
+                    <span :class="responsiveDisplay">Classement</span>
                 </a>
+
             </div>
             <span v-else class="navbar-brand w-100 text-center">
                 Alfred Wallace Bookie
@@ -56,6 +69,9 @@
     <div id="main-container" class="container h-100">
         <match-bet-list v-if="loggedIn && page === 'match-bet-list'" :api-base-url="apiBaseUrl" :token="token"
                         :user-id="userId"></match-bet-list>
+
+        <match-history-list v-if="loggedIn && page === 'match-history-list'" :api-base-url="apiBaseUrl" :token="token"
+                        :user-id="userId"></match-history-list>
 
         <rank-list v-else-if="loggedIn && page === 'rank-list'" :api-base-url="apiBaseUrl" :token="token"
                    :user-id="userId"></rank-list>

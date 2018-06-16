@@ -121,27 +121,28 @@ Vue.component('match-bet-list', {
     `
 });
 
-let matchMixin = {
+Vue.component('match-history-list', {
+    data: function () {
+        return {
+            getMatchRoute: '/matches-started'
+        };
+    },
+    mixins: [matchListMixin],
+    template: `
+        <div class="row bk-header-shift">
+            <match-history v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
+                   :user-id="userId"></match-history>
+        </div>
+    `
+});
+
+let editableMatchMixin = {
     data: function() {
         return {
-            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
             homeScore: this.match.home_score,
             awayScore: this.match.away_score,
             loading: false
         };
-    },
-    props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
-    computed: {
-        formatedKickOff: function () {
-            let kickOffDate = new Date(this.match.kick_off);
-            let date = kickOffDate.getDate();
-            let dateText = date === 1 ? date + 'er' : date;
-            let day = this.days[kickOffDate.getDay()];
-            let month = this.months[kickOffDate.getMonth()];
-            let minutes = kickOffDate.getMinutes() < 10 ? '0' + kickOffDate.getMinutes() : kickOffDate.getMinutes();
-            let hours = kickOffDate.getHours() < 10 ? '0' + kickOffDate.getHours() : kickOffDate.getHours();
-            return day + ' ' + dateText + ' ' + month + ' à ' + hours + 'h' + minutes;
-        }
     },
     template: `
         <div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -188,8 +189,66 @@ let matchMixin = {
     `
 };
 
+let historyMatchMixin = {
+    template: `
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card border-secondary">
+                <div class="card-header text-center text-white bg-secondary bk-match-card-header">
+                    {{ formatedKickOff }}
+                </div>
+                <div class="card-body text-info bk-match-card-content">
+                    <div class="container-fluid">
+                        <div class="row align-items-center justify-content-center bk-match-card-content">
+                            <div class="col-4">
+                                <div class="">
+                                    <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation" />
+                                </div>
+                                <div class="text-center bk-team-name text-uppercase">
+                                    {{ match.home_team.abbreviation }}
+                                </div>
+                            </div>
+                            <div class="col-4 text-center bk-score">
+                                {{ match.home_score }} - {{ match.away_score }}
+                            </div>
+                            <div class="col-4">
+                                <div class="">
+                                    <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation" />
+                                </div>
+                                <div class="text-center bk-team-name text-uppercase">
+                                    {{ match.away_team.abbreviation }}
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `
+};
+
+let matchMixin = {
+    data: function() {
+        return {
+            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
+        };
+    },
+    props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
+    computed: {
+        formatedKickOff: function () {
+            let kickOffDate = new Date(this.match.kick_off);
+            let date = kickOffDate.getDate();
+            let dateText = date === 1 ? date + 'er' : date;
+            let day = this.days[kickOffDate.getDay()];
+            let month = this.months[kickOffDate.getMonth()];
+            let minutes = kickOffDate.getMinutes() < 10 ? '0' + kickOffDate.getMinutes() : kickOffDate.getMinutes();
+            let hours = kickOffDate.getHours() < 10 ? '0' + kickOffDate.getHours() : kickOffDate.getHours();
+            return day + ' ' + dateText + ' ' + month + ' à ' + hours + 'h' + minutes;
+        }
+    }
+};
+
 Vue.component('match-bet', {
-    mixins: [matchMixin],
+    mixins: [matchMixin, editableMatchMixin],
     created: function () {
         if (this.match.hasOwnProperty('home_bet')) {
             this.homeScore = this.match.home_bet;
@@ -240,6 +299,16 @@ Vue.component('match-bet', {
                 });
             });
         }
+    }
+});
+
+Vue.component('match-history', {
+    mixins: [matchMixin, historyMatchMixin],
+    data: function () {
+        return {
+        };
+    },
+    methods: {
     }
 });
 
@@ -308,7 +377,7 @@ Vue.component('admin', {
 });
 
 Vue.component('match-admin', {
-    mixins: [matchMixin],
+    mixins: [matchMixin, editableMatchMixin],
     data: function () {
         return {
             btnSaveLabel: 'Clôturer le match',
@@ -364,7 +433,8 @@ new Vue({
         payload: null,
         userId: null,
         page: null,
-        isAdmin: false
+        isAdmin: false,
+        responsiveDisplay: 'd-none d-lg-inline'
     },
     created: function () {
         let token = this.$cookie.get('BEARER');
@@ -385,8 +455,12 @@ new Vue({
             this.page = 'rank-list';
             this.setPageCookie();
         },
-        showMatchList: function () {
+        showMatchBetList: function () {
             this.page = 'match-bet-list';
+            this.setPageCookie();
+        },
+        showMatchHistoryList: function () {
+            this.page = 'match-history-list';
             this.setPageCookie();
         },
         showAdmin: function () {
