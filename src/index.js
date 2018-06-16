@@ -299,7 +299,7 @@ Vue.component('match-history', {
                             </div>
                         </div>
                         
-                        <div class="row">
+                        <div class="row bk-bets">
                             <div class="col">
                                 <table class="table table-striped table-sm">
                                 <thead>
