@@ -366,7 +366,8 @@ Vue.component('bet', {
 Vue.component('rank-list', {
     data: function () {
         return {
-            users: null
+            users: null,
+            responsiveDisplay: 'd-none d-sm-inline'
         };
     },
     props: ['apiBaseUrl', 'token', 'userId'],
@@ -375,10 +376,24 @@ Vue.component('rank-list', {
             <div class="col">
                 <table class="table table-striped table-sm">
                 <thead>
-                    <tr><th>Joueur</th><th>Points</th></tr>
+                    <tr>
+                        <th>Joueur</th>
+                        <th class="text-right">
+                            <font-awesome-icon icon="trophy"></font-awesome-icon>
+                            <span :class="responsiveDisplay">Points</span>
+                        </th>
+                        <th class="text-right">
+                            <font-awesome-icon icon="receipt"></font-awesome-icon>
+                            <span :class="responsiveDisplay">Paris</span>
+                        </th>
+                        <th class="text-right">
+                            <font-awesome-icon icon="check"></font-awesome-icon>
+                            <span :class="responsiveDisplay">Gagnés</span>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <rank v-for="user in users" :name="user.username" :points="user.points" :key="user.id"></rank>
+                    <rank v-for="user in users" :user="user" :key="user.id"></rank>
                 </tbody>
                 </table>
             </div>
@@ -387,7 +402,7 @@ Vue.component('rank-list', {
     methods: {
         getUsers: function() {
             let rankList = this;
-            Axios.get(this.apiBaseUrl + '/users', {
+            Axios.get(this.apiBaseUrl + '/users-bets-stats', {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }
@@ -406,9 +421,14 @@ Vue.component('rank-list', {
 });
 
 Vue.component('rank', {
-    props: ['name', 'points'],
+    props: ['user'],
     template: `
-        <tr><td>{{ name.length > 20 ? name.substring(0,17) + '...' : name }}</td><td>{{ points }}</td></tr>
+        <tr>
+            <td>{{ user.username.length > 20 ? user.username.substring(0,17) + '...' : user.username }}</td>
+            <td class="text-right">{{ user.points }}</td>
+            <td class="text-right">{{ user.nbBets }}</td>
+            <td class="text-right">{{ user.nbWins }}</td>
+        </tr>
     `
 });
 
