@@ -124,7 +124,7 @@ Vue.component('match-bet-list', {
 Vue.component('match-history-list', {
     data: function () {
         return {
-            getMatchRoute: '/matches-started'
+            getMatchRoute: '/matches-started-bets'
         };
     },
     mixins: [matchListMixin],
@@ -180,49 +180,6 @@ let editableMatchMixin = {
                             <div class="col">
                                 <button class="btn btn-lg btn-block" :class="btnColor" :disabled="loading == true"
                                     @click="saveResult">{{ btnSaveLabel }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `
-};
-
-let historyMatchMixin = {
-    data: function() {
-        return {
-        };
-    },
-    template: `
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
-            <div class="card" :class="[ match.is_over ? 'border-secondary' : 'border-success' ]">
-                <div class="card-header text-center text-white bk-match-card-header"
-                 :class="[ match.is_over ? 'bg-secondary' : 'bg-success' ]">
-                    {{ formatedKickOff }}
-                </div>
-                <div class="card-body text-info bk-match-card-content">
-                    <div class="container-fluid">
-                        <div class="row align-items-center justify-content-center bk-match-card-content">
-                            <div class="col-4">
-                                <div class="">
-                                    <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation" />
-                                </div>
-                                <div class="text-center bk-team-name text-uppercase">
-                                    {{ match.home_team.abbreviation }}
-                                </div>
-                            </div>
-                            <div class="col-4 text-center bk-score">
-                                <span v-if="match.is_over">{{ match.home_score }} - {{ match.away_score }}</span>
-                                <font-awesome-icon icon="futbol" class="fa-lg text-success" v-else></font-awesome-icon>
-                            </div>
-                            <div class="col-4">
-                                <div class="">
-                                    <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation" />
-                                </div>
-                                <div class="text-center bk-team-name text-uppercase">
-                                    {{ match.away_team.abbreviation }}
-                                </div> 
                             </div>
                         </div>
                     </div>
@@ -309,13 +266,43 @@ Vue.component('match-bet', {
 });
 
 Vue.component('match-history', {
-    mixins: [matchMixin, historyMatchMixin],
-    data: function () {
-        return {
-        };
-    },
-    methods: {
-    }
+    mixins: [matchMixin],
+    template: `
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card" :class="[ match.is_over ? 'border-secondary' : 'border-success' ]">
+                <div class="card-header text-center text-white bk-match-card-header"
+                 :class="[ match.is_over ? 'bg-secondary' : 'bg-success' ]">
+                    {{ formatedKickOff }}
+                </div>
+                <div class="card-body text-info bk-match-card-content">
+                    <div class="container-fluid">
+                        <div class="row align-items-center justify-content-center bk-match-card-content">
+                            <div class="col-4">
+                                <div class="">
+                                    <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation" />
+                                </div>
+                                <div class="text-center bk-team-name text-uppercase">
+                                    {{ match.home_team.abbreviation }}
+                                </div>
+                            </div>
+                            <div class="col-4 text-center bk-score">
+                                <span v-if="match.is_over">{{ match.home_score }} - {{ match.away_score }}</span>
+                                <font-awesome-icon icon="futbol" class="fa-lg text-success" v-else></font-awesome-icon>
+                            </div>
+                            <div class="col-4">
+                                <div class="">
+                                    <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation" />
+                                </div>
+                                <div class="text-center bk-team-name text-uppercase">
+                                    {{ match.away_team.abbreviation }}
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `
 });
 
 Vue.component('rank-list', {
