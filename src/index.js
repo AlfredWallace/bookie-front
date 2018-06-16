@@ -267,6 +267,26 @@ Vue.component('match-bet', {
 
 Vue.component('match-history', {
     mixins: [matchMixin],
+    methods: {
+        compareBets: function (a, b) {
+            if (a.points > b.points) {
+                return -1;
+            } else if (a.points < b.points) {
+                return 1;
+            } else if (a.user.username > b.user.username) {
+                return 1;
+            } else if (a.user.username < b.user.username) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    },
+    computed: {
+        orderedBets: function () {
+            return this.match.bets.sort(this.compareBets);
+        }
+    },
     template: `
         <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card" :class="[ match.is_over ? 'border-secondary' : 'border-success' ]">
@@ -310,7 +330,7 @@ Vue.component('match-history', {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <bet v-for="bet in match.bets" :bet="bet" :points="bet.points" :key="bet.id"
+                                    <bet v-for="bet in orderedBets" :bet="bet" :points="bet.points" :key="bet.id"
                                         :user-id="userId" :match="match"></bet>
                                 </tbody>
                                 </table>
@@ -329,7 +349,7 @@ Vue.component('bet', {
             classObject: {
                 'text-success': this.match.is_over && this.bet.points > 0,
                 'text-danger': this.match.is_over && this.bet.points === 0,
-                'bg-light': this.userId === this.bet.user.id
+                'bg-light font-weight-bold': this.userId === this.bet.user.id
             }
         };
     },
