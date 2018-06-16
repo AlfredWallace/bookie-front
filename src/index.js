@@ -388,7 +388,7 @@ Vue.component('rank-list', {
 Vue.component('rank', {
     props: ['name', 'points'],
     template: `
-        <tr><td>{{ name }}</td><td>{{ points }}</td></tr>
+        <tr><td>{{ name.length > 20 ? name.substring(0,17) + '...' : name }}</td><td>{{ points }}</td></tr>
     `
 });
 
