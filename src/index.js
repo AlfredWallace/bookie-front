@@ -383,12 +383,18 @@ new Vue({
     methods: {
         showRankList: function () {
             this.page = 'rank-list';
+            this.setPageCookie();
         },
         showMatchList: function () {
             this.page = 'match-bet-list';
+            this.setPageCookie();
         },
         showAdmin: function () {
             this.page = 'admin';
+            this.setPageCookie();
+        },
+        setPageCookie: function () {
+            this.$cookie.set('landing_page', this.page, { expires: 7});
         },
         isTokenExpired: function () {
             if (this.payload !== null && this.payload.hasOwnProperty('exp')) {
@@ -404,7 +410,15 @@ new Vue({
             this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
             if (!this.isTokenExpired()) {
                 this.loggedIn = true;
-                this.page = 'match-bet-list';
+
+                let pageCookie = this.$cookie.get('landing_page');
+                if (pageCookie !== null) {
+                    this.page = pageCookie;
+                } else {
+                    this.page = 'match-bet-list';
+                    this.setPageCookie();
+                }
+
                 if (this.payload.hasOwnProperty('userId')) {
                     this.userId = this.payload.userId;
                 }
