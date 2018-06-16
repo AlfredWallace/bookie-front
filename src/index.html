@@ -55,8 +55,7 @@
     </nav>
     <div id="main-container" class="container h-100">
         <match-bet-list v-if="loggedIn && page === 'match-bet-list'" :api-base-url="apiBaseUrl" :token="token"
-                        :user-id="userId">
-        </match-bet-list>
+                        :user-id="userId"></match-bet-list>
 
         <rank-list v-else-if="loggedIn && page === 'rank-list'" :api-base-url="apiBaseUrl" :token="token"
                    :user-id="userId"></rank-list>

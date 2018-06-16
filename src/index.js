@@ -404,7 +404,7 @@ new Vue({
             this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
             if (!this.isTokenExpired()) {
                 this.loggedIn = true;
-                this.page = 'match-list';
+                this.page = 'match-bet-list';
                 if (this.payload.hasOwnProperty('userId')) {
                     this.userId = this.payload.userId;
                 }
