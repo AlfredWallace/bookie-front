@@ -42,12 +42,6 @@
                     <span :class="responsiveDisplay">Admin</span>
                 </a>
 
-                <a class="nav-item nav-link" :class="{ active: page === 'match-history-list' }" href="#"
-                   @click="showMatchHistoryList">
-                    <font-awesome-icon icon="history" class="fa-lg"></font-awesome-icon>
-                    <span :class="responsiveDisplay">Historique</span>
-                </a>
-
                 <a class="nav-item nav-link" :class="{ active: page === 'match-bet-list' }" href="#"
                    @click="showMatchBetList">
                     <font-awesome-icon icon="futbol" class="fa-lg"></font-awesome-icon>
@@ -58,6 +52,12 @@
                    @click="showRankList">
                     <font-awesome-icon icon="list-ol" class="fa-lg"></font-awesome-icon>
                     <span :class="responsiveDisplay">Classement</span>
+                </a>
+
+                <a class="nav-item nav-link" :class="{ active: page === 'match-history-list' }" href="#"
+                   @click="showMatchHistoryList">
+                    <font-awesome-icon icon="history" class="fa-lg"></font-awesome-icon>
+                    <span :class="responsiveDisplay">Historique</span>
                 </a>
 
             </div>
