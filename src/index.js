@@ -190,10 +190,15 @@ let editableMatchMixin = {
 };
 
 let historyMatchMixin = {
+    data: function() {
+        return {
+        };
+    },
     template: `
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-            <div class="card border-secondary">
-                <div class="card-header text-center text-white bg-secondary bk-match-card-header">
+            <div class="card" :class="[ match.is_over ? 'border-secondary' : 'border-success' ]">
+                <div class="card-header text-center text-white bk-match-card-header"
+                 :class="[ match.is_over ? 'bg-secondary' : 'bg-success' ]">
                     {{ formatedKickOff }}
                 </div>
                 <div class="card-body text-info bk-match-card-content">
@@ -208,7 +213,8 @@ let historyMatchMixin = {
                                 </div>
                             </div>
                             <div class="col-4 text-center bk-score">
-                                {{ match.home_score }} - {{ match.away_score }}
+                                <span v-if="match.is_over">{{ match.home_score }} - {{ match.away_score }}</span>
+                                <font-awesome-icon icon="futbol" class="fa-lg text-success" v-else></font-awesome-icon>
                             </div>
                             <div class="col-4">
                                 <div class="">
