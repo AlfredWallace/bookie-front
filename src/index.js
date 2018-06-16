@@ -393,7 +393,7 @@ Vue.component('rank-list', {
                     </tr>
                 </thead>
                 <tbody>
-                    <rank v-for="user in users" :user="user" :key="user.id"></rank>
+                    <rank v-for="user in users" :user="user" :key="user.id" :user-id="userId"></rank>
                 </tbody>
                 </table>
             </div>
@@ -421,9 +421,16 @@ Vue.component('rank-list', {
 });
 
 Vue.component('rank', {
-    props: ['user'],
+    data: function () {
+        return {
+            classObject: {
+                'text-info font-weight-bold': this.userId === this.user.id
+            }
+        };
+    },
+    props: ['user', 'userId'],
     template: `
-        <tr>
+        <tr :class="classObject">
             <td>{{ user.username.length > 20 ? user.username.substring(0,17) + '...' : user.username }}</td>
             <td class="text-right">{{ user.points }}</td>
             <td class="text-right">{{ user.nbBets }}</td>
