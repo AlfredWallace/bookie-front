@@ -326,7 +326,7 @@ Vue.component('bet', {
     props: ['bet'],
     template:`
         <tr>
-            <td>{{ bet.user.username }}</td>
+            <td>{{ bet.user.username.length > 10 ? bet.user.username.substring(0,7) + '...' : bet.user.username }}</td>
             <td class="text-center">{{ bet.home_score }} - {{ bet.away_score }}</td>
             <td class="text-right">{{ bet.points }}</td>
         </tr>
