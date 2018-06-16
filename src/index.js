@@ -298,10 +298,38 @@ Vue.component('match-history', {
                                 </div> 
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="text-right">points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <bet v-for="bet in match.bets" :bet="bet" :points="bet.points" :key="bet.id"></bet>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    `
+});
+
+Vue.component('bet', {
+    props: ['bet'],
+    template:`
+        <tr>
+            <td>{{ bet.user.username }}</td>
+            <td class="text-center">{{ bet.home_score }} - {{ bet.away_score }}</td>
+            <td class="text-right">{{ bet.points }}</td>
+        </tr>
     `
 });
 
