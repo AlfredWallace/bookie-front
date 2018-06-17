@@ -146,8 +146,9 @@ let editableMatchMixin = {
     },
     template: `
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-            <div class="card border-info">
-                <div class="card-header text-center text-white bg-info bk-match-card-header">
+            <div class="card" :class="[ isToday ? 'border-warning' : 'border-info' ]">
+                <div class="card-header text-center text-white bk-match-card-header" 
+                    :class="[ isToday ? 'bg-warning' : 'bg-info' ]">
                     {{ formatedKickOff }}
                 </div>
                 <div class="card-body text-info bk-match-card-content">
@@ -192,7 +193,7 @@ let editableMatchMixin = {
 let matchMixin = {
     data: function() {
         return {
-            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
+            flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/'
         };
     },
     props: ['match', 'months', 'days', 'userId', 'token', 'apiBaseUrl'],
@@ -206,6 +207,14 @@ let matchMixin = {
             let minutes = kickOffDate.getMinutes() < 10 ? '0' + kickOffDate.getMinutes() : kickOffDate.getMinutes();
             let hours = kickOffDate.getHours() < 10 ? '0' + kickOffDate.getHours() : kickOffDate.getHours();
             return day + ' ' + dateText + ' ' + month + ' à ' + hours + 'h' + minutes;
+        },
+        isToday: function () {
+            let kickOffDate = new Date(this.match.kick_off);
+            let today = new Date();
+
+            return (today.getDate() === kickOffDate.getDate()
+                && today.getMonth() === kickOffDate.getMonth()
+                && today.getFullYear() === kickOffDate.getFullYear());
         }
     }
 };
