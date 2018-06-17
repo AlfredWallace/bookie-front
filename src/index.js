@@ -393,6 +393,10 @@ Vue.component('rank-list', {
                                 <span :class="responsiveDisplay">Points</span>
                             </th>
                             <th class="text-right">
+                                <font-awesome-icon icon="balance-scale"></font-awesome-icon>
+                                <span :class="responsiveDisplay">Points (new)</span>
+                            </th>
+                            <th class="text-right">
                                 <font-awesome-icon icon="receipt"></font-awesome-icon>
                                 <span :class="responsiveDisplay">Paris</span>
                             </th>
@@ -432,6 +436,19 @@ Vue.component('rank-list', {
                                 donc d'abord 5 points pour avoir trouvé le résultat. Entre son pronostic et le résultat, 
                                 il y a 2 buts d'écarts pour la Russie et 1 pour l'Arabie Saoudite, elle marque donc
                                 5 - (2 + 1) = 2 points en plus, pour un total de 7.
+                            </p>
+                        </div>                       
+                        <hr class="display-4">
+                        <div class="lead">
+                            <span class="h5">Nouvelle méthode de calcul</span>
+                            <p>
+                                Résultat correct : 10 points.
+                                Score exact : +10
+                                1 but d'écart : +7
+                                2 buts d'écart : +5
+                                3 buts d'écart : +3
+                                4 buts d'écart : +2
+                                5 buts d'écart : +1
                             </p>
                         </div>
                     </div>
@@ -473,6 +490,7 @@ Vue.component('rank', {
         <tr :class="classObject">
             <td>{{ user.username.length > 20 ? user.username.substring(0,17) + '...' : user.username }}</td>
             <td class="text-right">{{ user.points }}</td>
+            <td class="text-right">{{ user.newPoints }}</td>
             <td class="text-right">{{ user.nbBets }}</td>
             <td class="text-right">{{ user.nbWins }}</td>
         </tr>
