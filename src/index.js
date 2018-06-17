@@ -147,8 +147,8 @@ let editableMatchMixin = {
     template: `
         <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card" :class="[ isToday ? 'border-warning' : 'border-info' ]">
-                <div class="card-header text-center text-white bk-match-card-header" 
-                    :class="[ isToday ? 'bg-warning' : 'bg-info' ]">
+                <div class="card-header text-center bk-match-card-header" 
+                    :class="[ isToday ? 'bg-warning text-dark' : 'bg-info text-white' ]">
                     {{ formatedKickOff }}
                 </div>
                 <div class="card-body text-info bk-match-card-content">
