@@ -372,30 +372,61 @@ Vue.component('rank-list', {
     },
     props: ['apiBaseUrl', 'token', 'userId'],
     template: `
-        <div class="row bk-header-shift">
-            <div class="col">
-                <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>Joueur</th>
-                        <th class="text-right">
-                            <font-awesome-icon icon="trophy"></font-awesome-icon>
-                            <span :class="responsiveDisplay">Points</span>
-                        </th>
-                        <th class="text-right">
-                            <font-awesome-icon icon="receipt"></font-awesome-icon>
-                            <span :class="responsiveDisplay">Paris</span>
-                        </th>
-                        <th class="text-right">
-                            <font-awesome-icon icon="check"></font-awesome-icon>
-                            <span :class="responsiveDisplay">Gagnés</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <rank v-for="user in users" :user="user" :key="user.id" :user-id="userId"></rank>
-                </tbody>
-                </table>
+        <div class="bk-header-shift">
+            <div class="row">
+                <div class="col">
+                    <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>Joueur</th>
+                            <th class="text-right">
+                                <font-awesome-icon icon="trophy"></font-awesome-icon>
+                                <span :class="responsiveDisplay">Points</span>
+                            </th>
+                            <th class="text-right">
+                                <font-awesome-icon icon="receipt"></font-awesome-icon>
+                                <span :class="responsiveDisplay">Paris</span>
+                            </th>
+                            <th class="text-right">
+                                <font-awesome-icon icon="check"></font-awesome-icon>
+                                <span :class="responsiveDisplay">Gagnés</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <rank v-for="user in users" :user="user" :key="user.id" :user-id="userId"></rank>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="jumbotron">
+                        <span class="h3">Calcul des points</span>
+                        <hr class="display-4">
+                        <div class="lead">
+                            <span class="h5">Résultat</span>
+                            <p>
+                                Pour chaque bon résultat (qui remporte le match, ou match nul) pronostiqué, 
+                                5 points sont accordés. Pour les matchs de phase finale, seul le temps réglementaire 
+                                est pris en compte, c'est à dire sans les prolongations ni les tirs au but.
+                            </p>
+                            <span class="h5">Écart au score</span>
+                            <p>
+                                En fonction de l'écart au score, un maximum de 5 points supplémentaires peuvent être 
+                                accordés selon la règle suivante : chaque but d'écart entre le pronostic et le résultat
+                                enlève 1 point du maximum de 5 possibles.
+                            </p>
+                            <span class="h5">Exemple</span>
+                            <p>
+                                Alice parie Russie 3-1 Arabie Saoudite. Le résultat est 5-0 pour la Russie, elle marque
+                                donc d'abord 5 points pour avoir trouvé le résultat.Entre son pronostic et le résultat, 
+                                il y a 2 buts d'écarts pour la Russie et 1 pour l'Arabie Saoudite, elle marque donc
+                                5 - (2 + 1) = 2 points en plus, pour un total de 7.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     `,
