@@ -429,7 +429,7 @@ Vue.component('rank-list', {
                             <span class="h5">Exemple</span>
                             <p>
                                 Alice parie Russie 3-1 Arabie Saoudite. Le résultat est 5-0 pour la Russie, elle marque
-                                donc d'abord 5 points pour avoir trouvé le résultat.Entre son pronostic et le résultat, 
+                                donc d'abord 5 points pour avoir trouvé le résultat. Entre son pronostic et le résultat, 
                                 il y a 2 buts d'écarts pour la Russie et 1 pour l'Arabie Saoudite, elle marque donc
                                 5 - (2 + 1) = 2 points en plus, pour un total de 7.
                             </p>
