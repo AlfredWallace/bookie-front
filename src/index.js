@@ -335,7 +335,12 @@ Vue.component('match-history', {
                                     <tr>
                                         <th></th>
                                         <th></th>
-                                        <th class="text-right">points</th>
+                                        <th class="text-right">
+                                            <font-awesome-icon icon="trophy"></font-awesome-icon>
+                                        </th>
+                                        <th class="text-right">
+                                            <font-awesome-icon icon="balance-scale"></font-awesome-icon>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -368,6 +373,7 @@ Vue.component('bet', {
             <td>{{ bet.user.username.length > 10 ? bet.user.username.substring(0,7) + '...' : bet.user.username }}</td>
             <td class="text-center">{{ bet.home_score }} - {{ bet.away_score }}</td>
             <td class="text-right">{{ bet.points }}</td>
+            <td class="text-right">{{ bet.new_points }}</td>
         </tr>
     `
 });
@@ -442,12 +448,12 @@ Vue.component('rank-list', {
                         <div class="lead">
                             <span class="h5">Nouvelle méthode de calcul</span>
                             <p>
-                                Résultat correct : 10 points.
-                                Score exact : +10
-                                1 but d'écart : +7
-                                2 buts d'écart : +5
-                                3 buts d'écart : +3
-                                4 buts d'écart : +2
+                                Résultat correct : 10 points.<br>
+                                Score exact : +10<br>
+                                1 but d'écart : +7<br>
+                                2 buts d'écart : +5<br>
+                                3 buts d'écart : +3<br>
+                                4 buts d'écart : +2<br>
                                 5 buts d'écart : +1
                             </p>
                         </div>
