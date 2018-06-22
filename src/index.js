@@ -373,7 +373,7 @@ Vue.component('bet', {
             <td>{{ bet.user.username.length > 10 ? bet.user.username.substring(0,7) + '...' : bet.user.username }}</td>
             <td class="text-center">{{ bet.home_score }} - {{ bet.away_score }}</td>
             <td class="text-right">{{ bet.points }}</td>
-            <td class="text-right">{{ bet.new_points }}</td>
+            <td class="text-right">{{ bet.points_alternative }}</td>
         </tr>
     `
 });
@@ -496,7 +496,7 @@ Vue.component('rank', {
         <tr :class="classObject">
             <td>{{ user.username.length > 20 ? user.username.substring(0,17) + '...' : user.username }}</td>
             <td class="text-right">{{ user.points }}</td>
-            <td class="text-right">{{ user.newPoints }}</td>
+            <td class="text-right">{{ user.points_alternative }}</td>
             <td class="text-right">{{ user.nbBets }}</td>
             <td class="text-right">{{ user.nbWins }}</td>
         </tr>
