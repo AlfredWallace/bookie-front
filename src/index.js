@@ -280,13 +280,15 @@ Vue.component('match-history', {
         compareBets: function (a, b) {
             let signA = Math.sign(a.home_score - a.away_score);
             let signB = Math.sign(b.home_score - b.away_score);
-            if (a.points > b.points) {
-                return -1;
-            } else if (a.points < b.points) {
-                return 1;
-            } else if (signA !== signB) {
+            if (a.points !== b.points) { // sort by points descending first
+                return b.points - a.points;
+            } else if (signA !== signB) { // then by 1N2 prediction (1 > N > 2)
                 return signB - signA;
-            } else if (a.user.username > b.user.username) {
+            } else if (a.home_score !== b.home_score) { // then by home score prediction
+                return b.home_score - a.home_score;
+            } else if (a.away_score !== b.away_score) { // then by away score prediction
+                return b.away_score - a.away_score;
+            } else if (a.user.username > b.user.username) { // then by name
                 return 1;
             } else if (a.user.username < b.user.username) {
                 return -1;
