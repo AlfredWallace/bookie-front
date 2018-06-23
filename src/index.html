@@ -81,7 +81,15 @@
 
         <login-form v-else-if="loggedIn !== true" :api-base-url="apiBaseUrl"></login-form>
 
-        <notifications width="100%" position="top center" classes="bk-notification"></notifications>
+        <notifications position="top left">
+            <template slot="body" scope="props">
+                <div class="bk-notif rounded d-flex justify-content-between align-items-center border"
+                    :class="props.item.type">
+                    <div v-html="props.item.text"></div>
+                    <font-awesome-icon icon="times-circle" @click="props.close" class="bk-cursor"></font-awesome-icon>
+                </div>
+            </template>
+        </notifications>
     </div>
 </div>
 <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
