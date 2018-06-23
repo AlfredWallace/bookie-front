@@ -278,10 +278,14 @@ Vue.component('match-history', {
     mixins: [matchMixin],
     methods: {
         compareBets: function (a, b) {
+            let signA = Math.sign(a.home_score - a.away_score);
+            let signB = Math.sign(b.home_score - b.away_score);
             if (a.points > b.points) {
                 return -1;
             } else if (a.points < b.points) {
                 return 1;
+            } else if (signA !== signB) {
+                return signB - signA;
             } else if (a.user.username > b.user.username) {
                 return 1;
             } else if (a.user.username < b.user.username) {
@@ -289,7 +293,7 @@ Vue.component('match-history', {
             } else {
                 return 0;
             }
-        }
+        },
     },
     computed: {
         orderedBets: function () {
