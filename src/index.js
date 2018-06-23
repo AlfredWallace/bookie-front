@@ -683,8 +683,13 @@ new Vue({
             }
         },
         logOut: function () {
-            this.loggedIn = false;
             this.$cookie.delete('BEARER');
+            this.loggedIn = false;
+            this.token = null;
+            this.payload = null;
+            this.userId = null;
+            this.page = null;
+            this.isAdmin = false;
         }
     }
 });
