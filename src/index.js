@@ -429,11 +429,11 @@ Vue.component('rank-list', {
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-12 col-md-6">
                     <div class="jumbotron">
                         <span class="h3">
                             <font-awesome-icon icon="trophy">
-                            </font-awesome-icon> Calcul des points (première méthode)
+                            </font-awesome-icon> Calcul des points<br>(première méthode)
                         </span>
                         <hr class="display-4">
                         <div class="lead">
@@ -448,14 +448,16 @@ Vue.component('rank-list', {
                                 2 buts d'écart : +3<br>
                                 3 buts d'écart : +2<br>
                                 4 buts d'écart : +1<br>
-                                5 buts d'écart ou plus : que dalle.
+                                plus de 5 buts d'écart : +0
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="col-12 col-md-6">
                     <div class="jumbotron">    
                         <span class="h3">                
                             <font-awesome-icon icon="balance-scale">
-                            </font-awesome-icon> Calcul des points (seconde méthode)
+                            </font-awesome-icon> Calcul des points<br>(seconde méthode)
                         </span>
                         <hr class="display-4">
                         <div class="lead">
@@ -471,7 +473,7 @@ Vue.component('rank-list', {
                                 3 buts d'écart : +3<br>
                                 4 buts d'écart : +2<br>
                                 5 buts d'écart : +1<br>
-                                6 buts d'écart ou plus : que dalle.
+                                plus de 6 buts d'écart : +0
                             </p>
                         </div>
                     </div>
