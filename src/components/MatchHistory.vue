@@ -1,0 +1,100 @@
+<template>
+    <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card" :class="[ match.is_over ? 'border-secondary' : 'border-success' ]">
+            <div class="card-header text-center text-white bk-match-card-header"
+                 :class="[ match.is_over ? 'bg-secondary' : 'bg-success' ]">
+                {{ formatedKickOff }}
+            </div>
+            <div class="card-body text-info bk-match-card-content">
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-center bk-match-card-content">
+                        <div class="col-4">
+                            <div class="">
+                                <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation" />
+                            </div>
+                            <div class="text-center bk-team-name text-uppercase">
+                                {{ match.home_team.abbreviation }}
+                            </div>
+                        </div>
+                        <div class="col-4 text-center bk-score">
+                            <span v-if="match.is_over">{{ match.home_score }} - {{ match.away_score }}</span>
+                            <font-awesome-icon icon="futbol" class="fa-lg text-success" v-else></font-awesome-icon>
+                        </div>
+                        <div class="col-4">
+                            <div class="">
+                                <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation" />
+                            </div>
+                            <div class="text-center bk-team-name text-uppercase">
+                                {{ match.away_team.abbreviation }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="match.bets.length > 0" class="row bk-bets">
+                        <div class="col">
+                            <table class="table table-sm text-secondary">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th class="text-right">
+                                        <font-awesome-icon icon="trophy"></font-awesome-icon>
+                                    </th>
+                                    <th class="text-right">
+                                        <font-awesome-icon icon="balance-scale"></font-awesome-icon>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <bet v-for="bet in orderedBets" :bet="bet" :points="bet.points" :key="bet.id"
+                                     :user-id="userId" :match="match"></bet>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import matchMixin from '../mixins/Match';
+    import Bet from './Bet';
+
+    export default {
+        name: "MatchHistory",
+        mixins: [matchMixin],
+        components: {Bet},
+        methods: {
+            compareBets (a, b) {
+                let signA = Math.sign(a.home_score - a.away_score);
+                let signB = Math.sign(b.home_score - b.away_score);
+                if (a.points !== b.points) { // sort by points descending first
+                    return b.points - a.points;
+                } else if (signA !== signB) { // then by 1N2 prediction (1 > N > 2)
+                    return signB - signA;
+                } else if (a.home_score !== b.home_score) { // then by home score prediction
+                    return b.home_score - a.home_score;
+                } else if (a.away_score !== b.away_score) { // then by away score prediction
+                    return b.away_score - a.away_score;
+                } else if (a.user.username > b.user.username) { // then by name
+                    return 1;
+                } else if (a.user.username < b.user.username) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            },
+        },
+        computed: {
+            orderedBets () {
+                return this.match.bets.sort(this.compareBets);
+            }
+        },
+    }
+</script>
+
+<style scoped>
+
+</style>

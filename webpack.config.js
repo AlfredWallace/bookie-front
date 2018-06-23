@@ -4,6 +4,7 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
     module: {
@@ -38,7 +39,8 @@ module.exports = {
         }),
         new WebpackMd5Hash(),
         new Dotenv(),
-        new CopyWebpackPlugin([ {from: 'src/img/*', to: 'img/', flatten: true } ])
+        new CopyWebpackPlugin([ {from: 'src/img/*', to: 'img/', flatten: true } ]),
+        new VueLoaderPlugin(),
     ],
     resolve: {
         alias: {
