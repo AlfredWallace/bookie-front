@@ -60,3 +60,13 @@ body, html {
     border-left-color: #42A85F;
   }
 }
+
+.bk-ranks {
+  th {
+    white-space: nowrap;
+
+    &:first-child {
+      width: 100%;
+    }
+  }
+}

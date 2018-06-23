@@ -390,25 +390,29 @@ Vue.component('rank-list', {
         <div class="bk-header-shift">
             <div class="row">
                 <div class="col">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-bordered table-striped table-sm bk-ranks">
                     <thead>
                         <tr>
                             <th>Joueur</th>
                             <th class="text-right">
+                                <span :class="responsiveDisplay">Points (1)</span>
                                 <font-awesome-icon icon="trophy"></font-awesome-icon>
-                                <span :class="responsiveDisplay">Points</span>
                             </th>
                             <th class="text-right">
+                                <span :class="responsiveDisplay">Points (2)</span>
                                 <font-awesome-icon icon="balance-scale"></font-awesome-icon>
-                                <span :class="responsiveDisplay">Points (new)</span>
                             </th>
                             <th class="text-right">
-                                <font-awesome-icon icon="receipt"></font-awesome-icon>
                                 <span :class="responsiveDisplay">Paris</span>
+                                <font-awesome-icon icon="receipt"></font-awesome-icon>
                             </th>
                             <th class="text-right">
+                                <span :class="responsiveDisplay">Résultat</span>
                                 <font-awesome-icon icon="check"></font-awesome-icon>
-                                <span :class="responsiveDisplay">Gagnés</span>
+                            </th>
+                            <th class="text-right">
+                                <span :class="responsiveDisplay">Dans le mille</span>
+                                <font-awesome-icon icon="crosshairs"></font-awesome-icon>
                             </th>
                         </tr>
                     </thead>
@@ -421,40 +425,47 @@ Vue.component('rank-list', {
             <div class="row">
                 <div class="col">
                     <div class="jumbotron">
-                        <span class="h3">Calcul des points</span>
+                        <span class="h3">
+                            <font-awesome-icon icon="trophy">
+                            </font-awesome-icon> Calcul des points (première méthode)
+                        </span>
                         <hr class="display-4">
                         <div class="lead">
                             <span class="h5">Résultat</span>
                             <p>
-                                Pour chaque bon résultat (qui remporte le match, ou match nul) pronostiqué, 
-                                5 points sont accordés. Pour les matchs de phase finale, seul le temps réglementaire 
-                                est pris en compte, c'est à dire sans les prolongations ni les tirs au but.
+                                Résultat correct : 5 points
                             </p>
                             <span class="h5">Écart au score</span>
                             <p>
-                                En fonction de l'écart au score, un maximum de 5 points supplémentaires peuvent être 
-                                accordés selon la règle suivante : chaque but d'écart entre le pronostic et le résultat
-                                enlève 1 point du maximum de 5 possibles.
+                                Score exact : +5<br>
+                                1 but d'écart : +4<br>
+                                2 buts d'écart : +3<br>
+                                3 buts d'écart : +2<br>
+                                4 buts d'écart : +1<br>
+                                5 buts d'écart ou plus : que dalle.
                             </p>
-                            <span class="h5">Exemple</span>
-                            <p>
-                                Alice parie Russie 3-1 Arabie Saoudite. Le résultat est 5-0 pour la Russie, elle marque
-                                donc d'abord 5 points pour avoir trouvé le résultat. Entre son pronostic et le résultat, 
-                                il y a 2 buts d'écarts pour la Russie et 1 pour l'Arabie Saoudite, elle marque donc
-                                5 - (2 + 1) = 2 points en plus, pour un total de 7.
-                            </p>
-                        </div>                       
+                        </div>
+                    </div>
+                    <div class="jumbotron">    
+                        <span class="h3">                
+                            <font-awesome-icon icon="balance-scale">
+                            </font-awesome-icon> Calcul des points (seconde méthode)
+                        </span>
                         <hr class="display-4">
                         <div class="lead">
-                            <span class="h5">Nouvelle méthode de calcul</span>
+                            <span class="h5">Résultat</span>
                             <p>
-                                Résultat correct : 10 points.<br>
+                                Résultat correct : 10 points
+                            </p>
+                            <span class="h5">Écart au score</span>
+                            <p>
                                 Score exact : +10<br>
                                 1 but d'écart : +7<br>
                                 2 buts d'écart : +5<br>
                                 3 buts d'écart : +3<br>
                                 4 buts d'écart : +2<br>
-                                5 buts d'écart : +1
+                                5 buts d'écart : +1<br>
+                                6 buts d'écart ou plus : que dalle.
                             </p>
                         </div>
                     </div>
@@ -499,6 +510,7 @@ Vue.component('rank', {
             <td class="text-right">{{ user.points_alternative }}</td>
             <td class="text-right">{{ user.nbBets }}</td>
             <td class="text-right">{{ user.nbWins }}</td>
+            <td class="text-right">{{ user.nbPerfects }}</td>
         </tr>
     `
 });
