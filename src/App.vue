@@ -2,31 +2,31 @@
     <div class="h-100">
         <nav class="navbar navbar-expand bg-info navbar-dark fixed-top bk-header">
             <div class="container">
-                <div v-if="loggedIn === true" class="navbar-nav w-100 d-flex">
+                <div v-if="auth.loggedIn === true" class="navbar-nav w-100 d-flex">
 
-                    <a class="nav-item nav-link mr-auto" @click="logOut">
+                    <router-link class="nav-item nav-link mr-auto" to="/logout">
                         <font-awesome-icon icon="user-slash" class="fa-lg"></font-awesome-icon>
-                        <span :class="responsiveDisplay">Déconnexion</span>
-                    </a>
+                        <span class="d-none d-lg-inline">Déconnexion</span>
+                    </router-link>
 
-                    <router-link v-if="isAdmin" class="nav-item nav-link" to="/admin">
+                    <router-link v-if="auth.isAdmin" class="nav-item nav-link" to="/admin">
                         <font-awesome-icon icon="unlock" class="fa-lg"></font-awesome-icon>
-                        <span :class="responsiveDisplay">Admin</span>
+                        <span class="d-none d-lg-inline">Admin</span>
                     </router-link>
 
                     <router-link class="nav-item nav-link" to="/pronostics">
                         <font-awesome-icon icon="futbol" class="fa-lg"></font-awesome-icon>
-                        <span :class="responsiveDisplay">Matchs</span>
+                        <span class="d-none d-lg-inline">Matchs</span>
                     </router-link>
 
                     <router-link class="nav-item nav-link" to="/classement">
                         <font-awesome-icon icon="list-ol" class="fa-lg"></font-awesome-icon>
-                        <span :class="responsiveDisplay">Classement</span>
+                        <span class="d-none d-lg-inline">Classement</span>
                     </router-link>
 
                     <router-link class="nav-item nav-link" to="/historique">
                         <font-awesome-icon icon="history" class="fa-lg"></font-awesome-icon>
-                        <span :class="responsiveDisplay">Historique</span>
+                        <span class="d-none d-lg-inline">Historique</span>
                     </router-link>
 
                 </div>
@@ -37,10 +37,7 @@
         </nav>
         <div id="main-container" class="container h-100">
 
-            <router-view v-if="loggedIn === true" :api-base-url="apiBaseUrl" :token="token" :user-id="userId">
-            </router-view>
-
-            <login-form v-else :api-base-url="apiBaseUrl"></login-form>
+            <router-view></router-view>
 
             <notifications position="top left">
                 <template slot="body" slot-scope="props">
@@ -57,69 +54,58 @@
 </template>
 
 <script>
-    import LoginForm from './components/LoginForm';
+    import { mapState } from 'vuex';
 
     export default {
         name: "App",
-        components: {LoginForm},
-        data () {
-            return {
-                loggedIn: false,
-                apiBaseUrl: process.env.BOOKIE_API_URL,
-                token: null,
-                payload: null,
-                userId: null,
-                isAdmin: false,
-                responsiveDisplay: 'd-none d-lg-inline'
-            };
-        },
-        created () {
-            let token = this.$cookie.get('BEARER');
-            if (token !== null) {
-                this.logIn(token);
-            }
-        },
-        mounted () {
-            this.$root.$on('logged-in', (token) => {
-                this.logIn(token);
-            });
-            this.$root.$on('logged-out', () => {
-                this.logOut();
-            })
-        },
-        methods: {
-            isTokenExpired () {
-                if (this.payload !== null && this.payload.hasOwnProperty('exp')) {
-                    let currentTimestamp = (new Date()).getTime() / 1000;
-                    if (this.payload.exp > currentTimestamp) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            logIn (token) {
-                this.token = token;
-                this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
-                if (!this.isTokenExpired()) {
-                    this.loggedIn = true;
-
-                    if (this.payload.hasOwnProperty('userId')) {
-                        this.userId = this.payload.userId;
-                    }
-                    if (this.payload.hasOwnProperty('roles') && this.payload.roles.hasOwnProperty('ROLE_ADMIN')) {
-                        this.isAdmin = true;
-                    }
-                }
-            },
-            logOut () {
-                this.$cookie.delete('BEARER');
-                this.loggedIn = false;
-                this.token = null;
-                this.payload = null;
-                this.userId = null;
-                this.isAdmin = false;
-            }
-        },
+        computed: mapState(['auth']),
+        // created () {
+        //     let token = this.$cookie.get('BEARER');
+        //     if (token !== null) {
+        //         this.logIn(token);
+        //     }
+        // },
+        // mounted () {
+        //     this.$root.$on('logged-in', (token) => {
+        //         this.logIn(token);
+        //     });
+        //     this.$root.$on('logged-out', () => {
+        //         this.logOut();
+        //     })
+        // },
+        // methods: {
+        //     isTokenExpired () {
+        //         if (this.payload !== null && this.payload.hasOwnProperty('exp')) {
+        //             let currentTimestamp = (new Date()).getTime() / 1000;
+        //             if (this.payload.exp > currentTimestamp) {
+        //                 return false;
+        //             }
+        //         }
+        //         return true;
+        //     },
+        //     logIn (token) {
+        //         this.token = token;
+        //         this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
+        //         if (!this.isTokenExpired()) {
+        //             this.loggedIn = true;
+        //
+        //             if (this.payload.hasOwnProperty('userId')) {
+        //                 this.userId = this.payload.userId;
+        //             }
+        //             if (this.payload.hasOwnProperty('roles') && this.payload.roles.hasOwnProperty('ROLE_ADMIN')) {
+        //                 this.isAdmin = true;
+        //             }
+        //         }
+        //     },
+        //     logOut () {
+        //         this.$cookie.delete('BEARER');
+        //         this.loggedIn = false;
+        //         this.token = null;
+        //         this.payload = null;
+        //         this.userId = null;
+        //         this.isAdmin = false;
+        //     }
+        // },
     }
 </script>
 

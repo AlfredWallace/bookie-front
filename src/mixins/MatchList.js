@@ -1,29 +1,34 @@
+import { mapState } from 'vuex';
+// import { mapMutations } from 'vuex';
+
 export default {
     data () {
         return {
             matches: null,
-            months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-                'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-            days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
         };
     },
-    props: ['apiBaseUrl', 'token', 'userId'],
+    computed: mapState(['months', 'days', 'auth']),
+    // props: ['apiBaseUrl', 'token', 'userId'],
     created () {
         this.getMatches();
     },
-    methods: {
-        getMatches () {
-            this.axios.get(this.apiBaseUrl + this.getMatchRoute, {
-                headers: {
-                    Authorization: `Bearer ${this.token}`
-                }
-            }).then((response) => {
-                if (response.hasOwnProperty('data')) {
-                    this.matches = response.data;
-                }
-            }).catch(() => {
-                this.$root.$emit('logged-out');
-            });
-        }
-    }
+    // methods: {
+    //     getMatches () {
+    //         let comp = this;
+    //         this.axios.get(comp.auth.apiBaseUrl + comp.getMatchRoute, {
+    //             headers: {
+    //                 Authorization: `Bearer ${comp.auth.token}`
+    //             }
+    //         }).then((response) => {
+    //             if (response.hasOwnProperty('data')) {
+    //                 comp.matches = response.data;
+    //             }
+    //         }).catch(() => {
+    //             comp.logOut();
+    //         });
+    //     },
+    //     logOut () {
+    //         store.commit('logOut');
+    //     }
+    // },
 };

@@ -1,8 +1,6 @@
 export default {
     data () {
         return {
-            homeScore: this.match.home_score,
-            awayScore: this.match.away_score,
             loading: false
         };
     },
@@ -23,7 +21,7 @@ export default {
                                 <div class="w-25 ml-3 bk-team-name">{{ match.home_team.abbreviation }}</div>
                                 <div class="w-25 ml-auto">
                                     <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
-                                        v-model="homeScore" :readonly="loading == true">
+                                        v-model="match.home_bet" :readonly="loading == true">
                                 </div>
                             </div>
                         </div>
@@ -35,7 +33,7 @@ export default {
                                 <div class="w-25 ml-3 bk-team-name">{{ match.away_team.abbreviation }}</div>       
                                 <div class="w-25 ml-auto">
                                     <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
-                                        v-model="awayScore" :readonly="loading == true">
+                                        v-model="match.away_bet" :readonly="loading == true">
                                 </div>
                             </div>
                         </div>

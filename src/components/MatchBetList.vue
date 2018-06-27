@@ -1,23 +1,34 @@
 <template>
     <div class="row bk-header-shift">
-        <match-bet v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
-                   :user-id="userId" :token="token" :api-base-url="apiBaseUrl"></match-bet>
+        <match-bet v-for="match in matches" :match="match" :key="match.id"></match-bet>
     </div>
 </template>
 
 <script>
-    import matchListMixin from '../mixins/MatchList.js';
+    // import matchListMixin from '../mixins/MatchList.js';
+    // import { createNamespacedHelpers } from 'vuex'
+    // const { mapState, mapMutations, mapActions } = createNamespacedHelpers('match');
     import MatchBet from './MatchBet';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         name: "MatchBetList",
-        data () {
-            return {
-                getMatchRoute: '/matches-bets/' + this.userId
-            };
+        computed: Object.assign(
+            mapState([ 'auth' ]),
+            mapState('match', [ 'matches' ])
+        ),
+        methods: mapActions({ fetchMatches: 'match/fetchMatches' }),
+        created () {
+            this.fetchMatches('/matches-bets/' + this.auth.userId);
+            // this.$store.dispatch('fetchMatches', '/matches-bets/' + this.auth.userId);
         },
-        mixins: [matchListMixin],
-        components: {MatchBet},
+        // data () {
+        //     return {
+        //         getMatchRoute: '/matches-bets/' + this.auth.userId
+        //     };
+        // },
+        // mixins: [matchListMixin],
+        components: { MatchBet },
     }
 </script>
 
