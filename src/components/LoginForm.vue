@@ -43,8 +43,9 @@
                     password: this.userPassword
                 }).then((response) => {
                     if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
-                        this.$cookie.set('BEARER', response.data.token, { expires: 7});
                         this.logIn(response.data.token);
+                        this.$cookie.set('BEARER', response.data.token, { expires: 7});
+                        this.$router.push({ name: 'bets' });
                     }
                 }).finally(() => {
                     this.loading = false;

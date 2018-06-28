@@ -28,7 +28,7 @@ import Admin from './components/Admin';
 import LoginForm from './components/LoginForm';
 
 const routes = [
-    { name: 'matchs', path: '/pronostics', component: MatchBetList, },
+    { name: 'bets', path: '/pronostics', component: MatchBetList, },
     { name: 'history', path: '/historique', component: MatchHistoryList, },
     { name: 'ranks', path: '/classement', component: RankList, },
     { name: 'admin', path: '/admin', component: Admin, },
@@ -50,7 +50,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (store.state.auth.loggedIn !== true && to.name !== 'logIn') {
+    if (store.state.auth.loggedIn !== true && store.state.auth.token === null && to.name !== 'logIn') {
         next({ name: 'logIn' });
     }
     next();
@@ -95,7 +95,7 @@ const store = new Vuex.Store({
         apiBaseUrl: process.env.BOOKIE_API_URL,
         auth: {
             loggedIn: false,
-            token: null,
+            token: Vue.cookie.get('BEARER'),
             payload: null,
             userId: null,
             isAdmin: false,

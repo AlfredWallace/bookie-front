@@ -62,9 +62,8 @@
         computed: mapState(['auth']),
         methods: mapMutations(['logIn']),
         created () {
-            let token = this.$cookie.get('BEARER');
-            if (token !== null) {
-                this.logIn(token);
+            if (this.auth.token !== null) {
+                this.logIn(this.auth.token);
             }
         },
     }
