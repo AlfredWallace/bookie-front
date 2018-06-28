@@ -7,29 +7,29 @@
                     <tr>
                         <th>Joueur</th>
                         <th class="text-right">
-                            <span :class="responsiveDisplay">Points (1)</span>
+                            <span class="d-none d-sm-inline">Points (1)</span>
                             <font-awesome-icon icon="trophy"></font-awesome-icon>
                         </th>
                         <th class="text-right">
-                            <span :class="responsiveDisplay">Points (2)</span>
+                            <span class="d-none d-sm-inline">Points (2)</span>
                             <font-awesome-icon icon="balance-scale"></font-awesome-icon>
                         </th>
                         <th class="text-right">
-                            <span :class="responsiveDisplay">Paris</span>
+                            <span class="d-none d-sm-inline">Paris</span>
                             <font-awesome-icon icon="receipt"></font-awesome-icon>
                         </th>
                         <th class="text-right">
-                            <span :class="responsiveDisplay">Résultat</span>
+                            <span class="d-none d-sm-inline">Résultat</span>
                             <font-awesome-icon icon="check"></font-awesome-icon>
                         </th>
                         <th class="text-right">
-                            <span :class="responsiveDisplay">Dans le mille</span>
+                            <span class="d-none d-sm-inline">Dans le mille</span>
                             <font-awesome-icon icon="crosshairs"></font-awesome-icon>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <rank v-for="user in users" :user="user" :key="user.id" :user-id="userId"></rank>
+                        <rank v-for="user in users" :user="user" :key="user.id"></rank>
                     </tbody>
                 </table>
             </div>
@@ -90,30 +90,29 @@
 
 <script>
     import Rank from './Rank';
+    import { mapState } from 'vuex';
 
     export default {
         name: "RankList",
-        components: {Rank},
+        components: { Rank },
         data () {
             return {
                 users: null,
-                responsiveDisplay: 'd-none d-sm-inline'
             };
         },
-        props: ['apiBaseUrl', 'token', 'userId'],
+        computed: mapState(['apiBaseUrl', 'auth']),
         methods: {
             getUsers () {
-                let rankList = this;
                 this.axios.get(this.apiBaseUrl + '/users-bets-stats', {
                     headers: {
-                        Authorization: `Bearer ${this.token}`
+                        Authorization: `Bearer ${this.auth.token}`
                     }
                 }).then((response) => {
                     if (response.hasOwnProperty('data')) {
-                        rankList.users = response.data;
+                        this.users = response.data;
                     }
                 }).catch(() => {
-                    rankList.$root.$emit('logged-out');
+                    this.$router.push({ name: 'logOut' });
                 });
             }
         },

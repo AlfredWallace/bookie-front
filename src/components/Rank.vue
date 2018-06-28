@@ -1,5 +1,6 @@
 <template>
-    <tr :class="classObject">
+    <!--<tr :class="classObject">-->
+    <tr>
         <td>{{ user.username.length > 20 ? user.username.substring(0,17) + '...' : user.username }}</td>
         <td class="text-right">{{ user.points }}</td>
         <td class="text-right">{{ user.points_alternative }}</td>
@@ -10,16 +11,19 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+
     export default {
         name: "Rank",
-        data () {
-            return {
-                classObject: {
-                    'text-info font-weight-bold': this.userId === this.user.id
-                }
-            };
-        },
-        props: ['user', 'userId'],
+        // data () {
+        //     return {
+        //         classObject: {
+        //             'text-info font-weight-bold': this.auth.userId === this.user.id
+        //         }
+        //     };
+        // },
+        computed: mapState(['auth']),
+        props: ['user'],
     }
 </script>
 
