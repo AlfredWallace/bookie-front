@@ -38,7 +38,7 @@ const routes = [
         path: '/logout',
         beforeEnter: (to, from, next) => {
             store.commit('logOut');
-            this.$cookie.delete('BEARER');
+            Vue.cookie.delete('BEARER');
             next({ name: 'logIn' });
         },
     }

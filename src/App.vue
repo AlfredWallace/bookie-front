@@ -55,57 +55,18 @@
 
 <script>
     import { mapState } from 'vuex';
+    import { mapMutations } from 'vuex';
 
     export default {
         name: "App",
         computed: mapState(['auth']),
-        // created () {
-        //     let token = this.$cookie.get('BEARER');
-        //     if (token !== null) {
-        //         this.logIn(token);
-        //     }
-        // },
-        // mounted () {
-        //     this.$root.$on('logged-in', (token) => {
-        //         this.logIn(token);
-        //     });
-        //     this.$root.$on('logged-out', () => {
-        //         this.logOut();
-        //     })
-        // },
-        // methods: {
-        //     isTokenExpired () {
-        //         if (this.payload !== null && this.payload.hasOwnProperty('exp')) {
-        //             let currentTimestamp = (new Date()).getTime() / 1000;
-        //             if (this.payload.exp > currentTimestamp) {
-        //                 return false;
-        //             }
-        //         }
-        //         return true;
-        //     },
-        //     logIn (token) {
-        //         this.token = token;
-        //         this.payload = JSON.parse(window.atob(this.token.split('.')[1]));
-        //         if (!this.isTokenExpired()) {
-        //             this.loggedIn = true;
-        //
-        //             if (this.payload.hasOwnProperty('userId')) {
-        //                 this.userId = this.payload.userId;
-        //             }
-        //             if (this.payload.hasOwnProperty('roles') && this.payload.roles.hasOwnProperty('ROLE_ADMIN')) {
-        //                 this.isAdmin = true;
-        //             }
-        //         }
-        //     },
-        //     logOut () {
-        //         this.$cookie.delete('BEARER');
-        //         this.loggedIn = false;
-        //         this.token = null;
-        //         this.payload = null;
-        //         this.userId = null;
-        //         this.isAdmin = false;
-        //     }
-        // },
+        methods: mapMutations(['logIn']),
+        created () {
+            let token = this.$cookie.get('BEARER');
+            if (token !== null) {
+                this.logIn(token);
+            }
+        },
     }
 </script>
 
