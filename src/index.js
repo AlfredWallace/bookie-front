@@ -32,13 +32,14 @@ const routes = [
     { name: 'history', path: '/historique', component: MatchHistoryList, },
     { name: 'ranks', path: '/classement', component: RankList, },
     { name: 'admin', path: '/admin', component: Admin, },
-    { name: 'login', path: '/login', component: LoginForm, },
+    { name: 'logIn', path: '/login', component: LoginForm, },
     {
-        name: 'logout',
+        name: 'logOut',
         path: '/logout',
         beforeEnter: (to, from, next) => {
             store.commit('logOut');
-            next({ name: 'login' });
+            this.$cookie.delete('BEARER');
+            next({ name: 'logIn' });
         },
     }
 ];
@@ -49,8 +50,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'login' && store.state.auth.loggedIn !== true) {
-        next({ name: 'login' });
+    if (to.name !== 'logIn' && store.state.auth.loggedIn !== true) {
+        next({ name: 'logIn' });
     }
     next();
 });
@@ -80,7 +81,7 @@ const matchModule = {
                     context.commit('setMatches', response.data);
                 }
             }).catch(() => {
-                context.rootState.commit('logOut');
+                router.push({ name: 'logOut' });
             });
         },
     },
@@ -129,12 +130,6 @@ const store = new Vuex.Store({
                 userId: null,
                 isAdmin: false,
             };
-        },
-    },
-    actions: {
-        logOut (context) {
-            context.commit('logOut');
-            router.push({ name: 'logout'});
         },
     },
 });
