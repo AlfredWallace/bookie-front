@@ -8,6 +8,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+
     export default {
         name: "Bet",
         data () {
@@ -19,7 +21,8 @@
                 }
             };
         },
-        props: ['bet', 'userId', 'match'],
+        props: ['bet', 'match'],
+        computed: mapState(['userId']),
     }
 </script>
 

@@ -1,22 +1,23 @@
 <template>
     <div class="row bk-header-shift">
-        <match-history v-for="match in matches" :match="match" :key="match.id" :months="months" :days="days"
-                       :user-id="userId"></match-history>
+        <match-history v-for="match in matches" :match="match" :key="match.id"></match-history>
     </div>
 </template>
 
 <script>
-    import matchListMixin from '../mixins/MatchList.js';
     import MatchHistory from './MatchHistory';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         name: "MatchHistoryList",
-        mixins: [matchListMixin],
-        components: {MatchHistory},
-        data () {
-            return {
-                getMatchRoute: '/matches-started-bets'
-            };
+        components: { MatchHistory },
+        computed: Object.assign(
+            mapState([ 'auth' ]),
+            mapState('match', [ 'matches' ])
+        ),
+        methods: mapActions({ fetchMatches: 'match/fetchMatches' }),
+        created () {
+            this.fetchMatches('/matches-started-bets');
         },
     }
 </script>

@@ -30,7 +30,7 @@
                         </div>
                     </div>
 
-                    <div v-if="match.bets.length > 0" class="row bk-bets">
+                    <div v-if="match.hasOwnProperty('bets') && match.bets.length > 0" class="row bk-bets">
                         <div class="col">
                             <table class="table table-sm text-secondary">
                                 <thead>
@@ -46,8 +46,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <bet v-for="bet in orderedBets" :bet="bet" :points="bet.points" :key="bet.id"
-                                     :user-id="userId" :match="match"></bet>
+                                    <bet v-for="bet in orderedBets" :bet="bet" :key="bet.id" :match="match"></bet>
                                 </tbody>
                             </table>
                         </div>
@@ -61,11 +60,13 @@
 <script>
     import matchMixin from '../mixins/Match';
     import Bet from './Bet';
+    import { mapState } from 'vuex';
+
 
     export default {
         name: "MatchHistory",
         mixins: [matchMixin],
-        components: {Bet},
+        components: { Bet },
         methods: {
             compareBets (a, b) {
                 let signA = Math.sign(a.home_score - a.away_score);
@@ -87,11 +88,15 @@
                 }
             },
         },
-        computed: {
-            orderedBets () {
-                return this.match.bets.sort(this.compareBets);
+        props: ['match'],
+        computed: Object.assign(
+            mapState('match', [ 'flagsUrl' ]),
+            {
+                orderedBets () {
+                    return this.match.bets.sort(this.compareBets);
+                }
             }
-        },
+        ),
     }
 </script>
 
