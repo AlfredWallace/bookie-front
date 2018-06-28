@@ -45,12 +45,12 @@ const routes = [
 ];
 
 const router = new VueRouter({
-    routes: routes,
+    routes,
     mode: 'history',
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'logIn' && store.state.auth.loggedIn !== true) {
+    if (store.state.auth.loggedIn !== true && to.name !== 'logIn') {
         next({ name: 'logIn' });
     }
     next();
