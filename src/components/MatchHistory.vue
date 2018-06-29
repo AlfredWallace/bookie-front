@@ -10,7 +10,7 @@
                     <div class="row align-items-center justify-content-center bk-match-card-content">
                         <div class="col-4">
                             <div class="">
-                                <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation" />
+                                <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation"/>
                             </div>
                             <div class="text-center bk-team-name text-uppercase">
                                 {{ match.home_team.abbreviation }}
@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-4">
                             <div class="">
-                                <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation" />
+                                <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation"/>
                             </div>
                             <div class="text-center bk-team-name text-uppercase">
                                 {{ match.away_team.abbreviation }}
@@ -46,7 +46,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <bet v-for="bet in orderedBets" :bet="bet" :key="bet.id" :match="match"></bet>
+                                <bet v-for="bet in orderedBets" :bet="bet" :key="bet.id" :match="match"></bet>
                                 </tbody>
                             </table>
                         </div>
@@ -58,17 +58,16 @@
 </template>
 
 <script>
-    import matchMixin from '../mixins/Match';
     import Bet from './Bet';
-    import { mapState } from 'vuex';
+    import {mapState} from 'vuex';
 
 
     export default {
         name: "MatchHistory",
-        mixins: [matchMixin],
-        components: { Bet },
+        props: ['match'],
+        components: {Bet},
         methods: {
-            compareBets (a, b) {
+            compareBets(a, b) {
                 let signA = Math.sign(a.home_score - a.away_score);
                 let signB = Math.sign(b.home_score - b.away_score);
                 if (a.points !== b.points) { // sort by points descending first
@@ -88,11 +87,10 @@
                 }
             },
         },
-        props: ['match'],
         computed: Object.assign(
-            mapState('match', [ 'flagsUrl' ]),
+            mapState('match', ['flagsUrl']),
             {
-                orderedBets () {
+                orderedBets() {
                     return this.match.bets.sort(this.compareBets);
                 }
             }

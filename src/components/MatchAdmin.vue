@@ -1,20 +1,20 @@
 <script>
-    import matchMixin from '../mixins/Match';
     import editableMatchMixin from '../mixins/EditableMatch';
-    import { mapState } from 'vuex';
+    import {mapState} from 'vuex';
 
     export default {
         name: "MatchAdmin",
-        mixins: [matchMixin, editableMatchMixin],
-        computed: mapState('match', [ 'flagsUrl' ]),
-        data () {
+        props: ['match'],
+        mixins: [editableMatchMixin],
+        computed: mapState('match', ['flagsUrl']),
+        data() {
             return {
                 btnSaveLabel: 'Clôturer le match',
                 btnColor: 'btn-danger'
             };
         },
         methods: {
-            saveResult () {
+            saveResult() {
                 // this.loading = true;
                 // this.axios.post(this.apiBaseUrl + '/matches/' + this.match.id + '/end',
                 //     {
