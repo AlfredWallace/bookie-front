@@ -18,28 +18,28 @@
 
 <script>
     import MatchAdmin from './MatchAdmin';
-    import { mapState, mapActions } from 'vuex';
+    import {mapActions, mapState} from 'vuex';
 
     export default {
         name: "Admin",
-        components: { MatchAdmin },
+        components: {MatchAdmin},
         computed: Object.assign(
-            mapState([ 'auth' ]),
-            mapState('match', [ 'matches' ])
+            mapState(['auth', 'apiBaseUrl']),
+            mapState('match', ['matches'])
         ),
         methods: Object.assign(
-            mapActions({ fetchMatches: 'match/fetchMatches' }),
+            mapActions({fetchMatches: 'match/fetchMatches'}),
             {
-                recalculateAll () {
-                    this.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
+                recalculateAll() {
+                    Vue.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
                         headers: {
-                            Authorization: `Bearer ${this.token}`
+                            Authorization: `Bearer ${this.auth.token}`
                         }
                     });
                 }
             }
         ),
-        created () {
+        created() {
             this.fetchMatches('/matches-started');
         },
     }
