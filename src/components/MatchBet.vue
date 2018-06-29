@@ -1,29 +1,20 @@
 <script>
-    import matchMixin from '../mixins/Match';
     import editableMatchMixin from '../mixins/EditableMatch';
-    import { mapState } from 'vuex';
+    import {mapState} from 'vuex';
 
     export default {
         name: "MatchBet",
-        mixins: [matchMixin, editableMatchMixin],
-        // mixins: [editableMatchMixin],
-        // created () {
-        //     if (this.match.hasOwnProperty('home_bet')) {
-        //         this.homeScore = this.match.home_bet;
-        //     }
-        //     if (this.match.hasOwnProperty('away_bet')) {
-        //         this.awayScore = this.match.away_bet;
-        //     }
-        // },
-        computed: mapState('match', [ 'flagsUrl' ]),
-        data () {
+        props: ['match'],
+        mixins: [editableMatchMixin],
+        computed: mapState('match', ['flagsUrl']),
+        data() {
             return {
                 btnSaveLabel: 'Enregistrer mon pari',
                 btnColor: 'btn-success'
             };
         },
         methods: {
-            saveResult () {
+            saveResult() {
                 // this.loading = true;
                 // this.axios.post(this.auth.apiBaseUrl + '/bets/group-stage',
                 //     {
