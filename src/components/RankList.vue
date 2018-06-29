@@ -90,34 +90,16 @@
 
 <script>
     import Rank from './Rank';
+    import { mapActions } from 'vuex';
     import { mapState } from 'vuex';
 
     export default {
         name: "RankList",
         components: { Rank },
-        data () {
-            return {
-                users: null,
-            };
-        },
-        computed: mapState(['apiBaseUrl', 'auth']),
-        methods: {
-            getUsers () {
-                this.axios.get(this.apiBaseUrl + '/users-bets-stats', {
-                    headers: {
-                        Authorization: `Bearer ${this.auth.token}`
-                    }
-                }).then((response) => {
-                    if (response.hasOwnProperty('data')) {
-                        this.users = response.data;
-                    }
-                }).catch(() => {
-                    this.$router.push({ name: 'logOut' });
-                });
-            }
-        },
+        computed: mapState('rank', ['users']),
+        methods: mapActions({ fetchUsers: 'rank/fetchUsers' }),
         created () {
-            this.getUsers();
+            this.fetchUsers();
         },
     }
 </script>

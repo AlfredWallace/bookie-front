@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import matchModule from './modules/match';
 import Cookie from 'vue-cookie';
+import matchModule from './modules/match';
+import rankModule from './modules/rank';
 
 Vue.use(Vuex);
 Vue.use(Cookie);
@@ -9,6 +10,7 @@ Vue.use(Cookie);
 export default new Vuex.Store({
     modules: {
         match: matchModule,
+        rank: rankModule,
     },
     state: {
         apiBaseUrl: process.env.BOOKIE_API_URL,
