@@ -21,12 +21,19 @@ const routes = [
     {
         name: 'logOut',
         path: '/logout',
-        beforeEnter: (to, from, next) => {
+        beforeEnter (to, from, next) {
             store.commit('logOut');
             Vue.cookie.delete('BEARER');
             next({ name: 'logIn' });
         },
-    }
+    },
+    {
+        name: 'default',
+        path: '/',
+        beforeEnter (to, from, next) {
+            next({ name: 'bets' });
+        },
+    },
 ];
 
 export default new VueRouter({
