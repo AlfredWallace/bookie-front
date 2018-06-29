@@ -1,6 +1,5 @@
 <template>
-    <!--<tr :class="classObject">-->
-    <tr>
+    <tr :class="[this.auth.userId === this.user.id ? 'text-info font-weight-bold' : '']">
         <td>{{ user.username.length > 20 ? user.username.substring(0,17) + '...' : user.username }}</td>
         <td class="text-right">{{ user.points }}</td>
         <td class="text-right">{{ user.points_alternative }}</td>
@@ -15,13 +14,6 @@
 
     export default {
         name: "Rank",
-        // data () {
-        //     return {
-        //         classObject: {
-        //             'text-info font-weight-bold': this.auth.userId === this.user.id
-        //         }
-        //     };
-        // },
         computed: mapState(['auth']),
         props: ['user'],
     }
