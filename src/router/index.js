@@ -36,7 +36,16 @@ const routes = [
     },
 ];
 
-export default new VueRouter({
+const router =  new VueRouter({
     routes,
     mode: 'history',
 });
+
+router.beforeEach((to, from, next) => {
+    if (store.state.auth.loggedIn !== true && store.state.auth.token === null && to.name !== 'logIn') {
+        next({ name: 'logIn' });
+    }
+    next();
+});
+
+export default router;
