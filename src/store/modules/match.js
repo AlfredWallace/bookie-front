@@ -29,4 +29,23 @@ export default {
             });
         },
     },
+    // getters: {
+    //     getMatch: (state) => {
+    //         return (id) => {
+    //             return state.matches.find((match) => {
+    //                 return match.id === id;
+    //             });
+    //         }
+    //     },
+    //     getBetRowClasses: (state, getters) => {
+    //         return (id) => {
+    //             let match = getters.getMatch(id);
+    //             return {
+    //                 'text-success': match.is_over && match.bet.points > 0,
+    //                 'text-danger': match.is_over && match.bet.points === 0,
+    //                 'bg-light font-weight-bold': this.auth.userId === this.bet.userId
+    //             };
+    //         };
+    //     },
+    // },
 };

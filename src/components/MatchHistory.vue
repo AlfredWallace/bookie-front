@@ -3,17 +3,17 @@
         <div class="card" :class="[ match.is_over ? 'border-secondary' : 'border-success' ]">
             <div class="card-header text-center text-white bk-match-card-header"
                  :class="[ match.is_over ? 'bg-secondary' : 'bg-success' ]">
-                {{ formatedKickOff }}
+                {{ match.kick_off }}
             </div>
             <div class="card-body text-info bk-match-card-content">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-center bk-match-card-content">
                         <div class="col-4">
                             <div class="">
-                                <img class="img-fluid" :src="flagsUrl + match.home_team.abbreviation"/>
+                                <img class="img-fluid" :src="flagsUrl + match.ht_abbr"/>
                             </div>
                             <div class="text-center bk-team-name text-uppercase">
-                                {{ match.home_team.abbreviation }}
+                                {{ match.ht_abbr }}
                             </div>
                         </div>
                         <div class="col-4 text-center bk-score">
@@ -22,10 +22,10 @@
                         </div>
                         <div class="col-4">
                             <div class="">
-                                <img class="img-fluid" :src="flagsUrl + match.away_team.abbreviation"/>
+                                <img class="img-fluid" :src="flagsUrl + match.at_abbr"/>
                             </div>
                             <div class="text-center bk-team-name text-uppercase">
-                                {{ match.away_team.abbreviation }}
+                                {{ match.at_abbr }}
                             </div>
                         </div>
                     </div>
@@ -78,9 +78,9 @@
                     return b.home_score - a.home_score;
                 } else if (a.away_score !== b.away_score) { // then by away score prediction
                     return b.away_score - a.away_score;
-                } else if (a.user.username > b.user.username) { // then by name
+                } else if (a.username > b.username) { // then by name
                     return 1;
-                } else if (a.user.username < b.user.username) {
+                } else if (a.username < b.username) {
                     return -1;
                 } else {
                     return 0;
