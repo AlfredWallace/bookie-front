@@ -4,27 +4,31 @@
             <div class="container">
                 <div v-if="auth.loggedIn === true" class="navbar-nav w-100 d-flex">
 
-                    <router-link class="nav-item nav-link mr-auto" to="/logout">
+                    <router-link to="/logout" class="nav-item nav-link mr-auto">
                         <font-awesome-icon icon="user-slash" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Déconnexion</span>
                     </router-link>
 
-                    <router-link v-if="auth.isAdmin" class="nav-item nav-link" to="/admin">
+                    <router-link to="/admin" class="nav-item nav-link" v-if="auth.isAdmin"
+                                 :class="{ active: $route.name === 'admin'}">
                         <font-awesome-icon icon="unlock" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Admin</span>
                     </router-link>
 
-                    <router-link class="nav-item nav-link" to="/pronostics">
+                    <router-link to="/pronostics" class="nav-item nav-link"
+                                 :class="{ active: $route.name === 'bets'}">
                         <font-awesome-icon icon="futbol" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Matchs</span>
                     </router-link>
 
-                    <router-link class="nav-item nav-link" to="/classement">
+                    <router-link to="/classement" class="nav-item nav-link"
+                                 :class="{ active: $route.name === 'ranks'}">
                         <font-awesome-icon icon="list-ol" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Classement</span>
                     </router-link>
 
-                    <router-link class="nav-item nav-link" to="/historique">
+                    <router-link to="/historique" class="nav-item nav-link"
+                                 :class="{ active: $route.name === 'history'}">
                         <font-awesome-icon icon="history" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Historique</span>
                     </router-link>
