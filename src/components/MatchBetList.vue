@@ -6,17 +6,17 @@
 
 <script>
     import MatchBet from './MatchBet';
-    import { mapState, mapActions } from 'vuex';
+    import {mapActions, mapState} from 'vuex';
 
     export default {
         name: "MatchBetList",
-        components: { MatchBet },
+        components: {MatchBet},
         computed: Object.assign(
-            mapState([ 'auth' ]),
-            mapState('match', [ 'matches' ])
+            mapState(['auth']),
+            mapState('matchModule', ['matches'])
         ),
-        methods: mapActions({ fetchMatches: 'match/fetchMatches' }),
-        created () {
+        methods: mapActions({fetchMatches: 'matchModule/fetchMatches'}),
+        created() {
             this.fetchMatches('/matches-bets/' + this.auth.userId);
         },
     }

@@ -7,6 +7,8 @@ import fontawesome from '@fortawesome/fontawesome';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import solid from '@fortawesome/fontawesome-free-solid';
 import './scss/bookie.scss';
+import store from './store/index';
+import router from './router/index';
 
 fontawesome.library.add(solid);
 
@@ -15,13 +17,10 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Notifications);
 Vue.use(VueAxios, axios);
 
-import store from './store/index';
-import router from './router/index';
-
 new Vue({
     el: '#app',
     router,
     store,
     template: '<App/>',
-    components: { App },
+    components: {App},
 });

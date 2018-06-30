@@ -4,18 +4,16 @@ export default {
     namespaced: true,
     state: {
         matches: null,
+        bets: null,
         flagsUrl: 'https://fsprdcdnpublic.azureedge.net/global-pictures/flags-fwc2018-4/',
-        months: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-            'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
-        days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
     },
     mutations: {
-        setMatches (state, data) {
+        setMatches(state, data) {
             state.matches = data;
         },
     },
     actions: {
-        fetchMatches (context, url) {
+        fetchMatches(context, url) {
             Vue.axios.get(context.rootState.apiBaseUrl + url, {
                 headers: {
                     Authorization: `Bearer ${context.rootState.auth.token}`,
@@ -25,7 +23,7 @@ export default {
                     context.commit('setMatches', response.data);
                 }
             }).catch(() => {
-                Vue.router.push({ name: 'logOut' });
+                Vue.router.push({name: 'logOut'});
             });
         },
     },

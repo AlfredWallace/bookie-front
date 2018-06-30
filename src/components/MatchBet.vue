@@ -6,7 +6,7 @@
         name: "MatchBet",
         props: ['match'],
         mixins: [editableMatchMixin],
-        computed: mapState('match', ['flagsUrl']),
+        computed: mapState('matchModule', ['flagsUrl']),
         data() {
             return {
                 btnSaveLabel: 'Enregistrer mon pari',

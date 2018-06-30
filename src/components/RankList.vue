@@ -29,7 +29,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <rank v-for="user in users" :user="user" :key="user.id"></rank>
+                    <rank v-for="user in users" :user="user" :key="user.id"></rank>
                     </tbody>
                 </table>
             </div>
@@ -90,15 +90,14 @@
 
 <script>
     import Rank from './Rank';
-    import { mapActions } from 'vuex';
-    import { mapState } from 'vuex';
+    import {mapActions, mapState} from 'vuex';
 
     export default {
         name: "RankList",
-        components: { Rank },
-        computed: mapState('rank', ['users']),
-        methods: mapActions({ fetchUsers: 'rank/fetchUsers' }),
-        created () {
+        components: {Rank},
+        computed: mapState('rankModule', ['users']),
+        methods: mapActions({fetchUsers: 'rankModule/fetchUsers'}),
+        created() {
             this.fetchUsers();
         },
     }

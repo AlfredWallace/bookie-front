@@ -6,12 +6,12 @@ export default {
         users: null,
     },
     mutations: {
-        setUsers (state, data) {
+        setUsers(state, data) {
             state.users = data;
         }
     },
     actions: {
-        fetchUsers (context) {
+        fetchUsers(context) {
             Vue.axios.get(context.rootState.apiBaseUrl + '/users-bets-stats', {
                 headers: {
                     Authorization: `Bearer ${context.rootState.auth.token}`
@@ -21,7 +21,7 @@ export default {
                     context.commit('setUsers', response.data);
                 }
             }).catch(() => {
-                Vue.router.push({ name: 'logOut' });
+                Vue.router.push({name: 'logOut'});
             });
         }
     },

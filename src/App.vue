@@ -58,14 +58,13 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import { mapMutations } from 'vuex';
+    import {mapMutations, mapState} from 'vuex';
 
     export default {
         name: "App",
         computed: mapState(['auth']),
         methods: mapMutations(['logIn']),
-        created () {
+        created() {
             if (this.auth.token !== null) {
                 this.logIn(this.auth.token);
             }

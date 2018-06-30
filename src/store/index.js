@@ -9,8 +9,8 @@ Vue.use(Cookie);
 
 export default new Vuex.Store({
     modules: {
-        match: matchModule,
-        rank: rankModule,
+        matchModule,
+        rankModule,
     },
     state: {
         apiBaseUrl: process.env.BOOKIE_API_URL,
@@ -23,7 +23,7 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        logIn (state, token) {
+        logIn(state, token) {
             let splitToken = token.split('.');
             if (splitToken.length === 3) {
                 let payload = JSON.parse(window.atob(splitToken[1]));
@@ -43,7 +43,7 @@ export default new Vuex.Store({
                 }
             }
         },
-        logOut (state) {
+        logOut(state) {
             state.auth = {
                 loggedIn: false,
                 token: null,

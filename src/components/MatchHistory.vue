@@ -88,7 +88,7 @@
             },
         },
         computed: Object.assign(
-            mapState('match', ['flagsUrl']),
+            mapState('matchModule', ['flagsUrl']),
             {
                 orderedBets() {
                     return this.match.bets.sort(this.compareBets);

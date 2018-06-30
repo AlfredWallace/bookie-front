@@ -22,21 +22,20 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import { mapMutations } from 'vuex'
+    import {mapMutations, mapState} from 'vuex';
 
     export default {
         name: "LoginForm",
-        data () {
+        data() {
             return {
-                userLogin:'',
-                userPassword:'',
+                userLogin: '',
+                userPassword: '',
                 loading: false
             };
         },
         computed: mapState(['apiBaseUrl']),
         methods: Object.assign({
-            connectPlayer () {
+            connectPlayer() {
                 this.loading = true;
                 this.axios.post(this.apiBaseUrl + '/login_check', {
                     username: this.userLogin,
@@ -44,14 +43,14 @@
                 }).then((response) => {
                     if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
                         this.logIn(response.data.token);
-                        this.$cookie.set('BEARER', response.data.token, { expires: 7});
-                        this.$router.push({ name: 'bets' });
+                        this.$cookie.set('BEARER', response.data.token, {expires: 7});
+                        this.$router.push({name: 'bets'});
                     }
                 }).finally(() => {
                     this.loading = false;
                 });
             },
-            createAccount () {
+            createAccount() {
                 this.loading = true;
                 this.axios.post(this.apiBaseUrl + '/users/new', {
                     username: this.userLogin,

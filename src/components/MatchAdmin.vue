@@ -6,7 +6,7 @@
         name: "MatchAdmin",
         props: ['match'],
         mixins: [editableMatchMixin],
-        computed: mapState('match', ['flagsUrl']),
+        computed: mapState('matchModule', ['flagsUrl']),
         data() {
             return {
                 btnSaveLabel: 'Clôturer le match',

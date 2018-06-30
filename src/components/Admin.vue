@@ -25,10 +25,10 @@
         components: {MatchAdmin},
         computed: Object.assign(
             mapState(['auth', 'apiBaseUrl']),
-            mapState('match', ['matches'])
+            mapState('matchModule', ['matches'])
         ),
         methods: Object.assign(
-            mapActions({fetchMatches: 'match/fetchMatches'}),
+            mapActions({fetchMatches: 'matchModule/fetchMatches'}),
             {
                 recalculateAll() {
                     Vue.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
