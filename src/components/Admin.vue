@@ -29,11 +29,11 @@
         ),
         methods: {
             recalculateAll() {
-                Vue.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
-                    headers: {
-                        Authorization: `Bearer ${this.auth.token}`
-                    }
-                });
+                // this.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
+                //     headers: {
+                //         Authorization: `Bearer ${this.auth.token}`
+                //     }
+                // });
             }
         },
     }
