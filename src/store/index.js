@@ -4,6 +4,7 @@ import Cookie from 'vue-cookie';
 import matchModule from './modules/match';
 import userModule from './modules/user';
 import betModule from './modules/bet';
+import teamModule from './modules/team';
 import router from '../router/index';
 
 Vue.use(Vuex);
@@ -14,6 +15,7 @@ export default new Vuex.Store({
         matchModule,
         userModule,
         betModule,
+        teamModule,
     },
     state: {
         apiBaseUrl: process.env.BOOKIE_API_URL,
@@ -28,25 +30,6 @@ export default new Vuex.Store({
     mutations: {
         setAuthData(state, {loggedIn, token, payload, userId, isAdmin}) {
             state.auth = {loggedIn, token, payload, userId, isAdmin};
-
-            // let splitToken = token.split('.');
-            // if (splitToken.length === 3) {
-            //     let payload = JSON.parse(window.atob(splitToken[1]));
-            //     if (payload.hasOwnProperty('exp')) {
-            //         let currentTimestamp = (new Date()).getTime() / 1000;
-            //         if (currentTimestamp < payload.exp) {
-            //             state.auth.loggedIn = true;
-            //             state.auth.token = token;
-            //             state.auth.payload = payload;
-            //             if (payload.hasOwnProperty('userId')) {
-            //                 state.auth.userId = payload.userId;
-            //             }
-            //             if (payload.hasOwnProperty('roles') && payload.roles.hasOwnProperty('ROLE_ADMIN')) {
-            //                 state.auth.isAdmin = true;
-            //             }
-            //         }
-            //     }
-            // }
         },
         resetAuthData(state) {
             state.auth = {
@@ -75,8 +58,9 @@ export default new Vuex.Store({
                                 isAdmin: payload.hasOwnProperty('roles') && payload.roles.hasOwnProperty('ROLE_ADMIN'),
                             });
                             context.dispatch('fetchData', {url: '/matches', setter: 'matchModule/setMatches'});
-                            // context.dispatch('fetchData', {url: '/bets', setter: 'setBets'});
-                            // context.dispatch('fetchData', {url: '/users', setter: 'setUsers'});
+                            context.dispatch('fetchData', {url: '/bets', setter: 'betModule/setBets'});
+                            context.dispatch('fetchData', {url: '/teams', setter: 'teamModule/setTeams'});
+                            context.dispatch('fetchData', {url: '/users', setter: 'userModule/setUsers'});
                             resolve();
                         });
                     }
