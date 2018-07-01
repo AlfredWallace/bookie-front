@@ -1,12 +1,15 @@
 <script>
     import editableMatchMixin from '../mixins/EditableMatch';
-    import {mapState} from 'vuex';
+    import {mapState, mapGetters} from 'vuex';
 
     export default {
         name: "MatchBet",
         props: ['match'],
         mixins: [editableMatchMixin],
-        computed: mapState('matchModule', ['flagsUrl']),
+        computed: Object.assign(
+            mapState('matchModule', ['flagsUrl']),
+            mapGetters('teamModule', ['getTeam'])
+        ),
         data() {
             return {
                 btnSaveLabel: 'Enregistrer mon pari',

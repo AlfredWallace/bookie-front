@@ -8,4 +8,11 @@ export default {
             state.teams = data;
         },
     },
+    getters: {
+        getTeam(state) {
+            return (id) => {
+                return state.teams[id];
+            };
+        },
+    },
 };
