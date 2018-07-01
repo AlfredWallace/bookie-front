@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import {mapMutations, mapState} from 'vuex';
+    import {mapActions, mapState} from 'vuex';
 
     export default {
         name: "LoginForm",
@@ -34,36 +34,40 @@
             };
         },
         computed: mapState(['apiBaseUrl']),
-        methods: Object.assign({
-            connectPlayer() {
-                this.loading = true;
-                this.axios.post(this.apiBaseUrl + '/login_check', {
-                    username: this.userLogin,
-                    password: this.userPassword
-                }).then((response) => {
-                    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
-                        this.logIn(response.data.token);
-                        this.$cookie.set('BEARER', response.data.token, {expires: 7});
-                        this.$router.push({name: 'bets'});
-                    }
-                }).finally(() => {
-                    this.loading = false;
-                });
+        methods: Object.assign(
+            mapActions(['logIn']),
+            {
+                connectPlayer() {
+                    this.loading = true;
+                    this.axios.post(this.apiBaseUrl + '/login_check', {
+                        username: this.userLogin,
+                        password: this.userPassword
+                    }).then((response) => {
+                        if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
+                            this.logIn(response.data.token).then(() => {
+                                this.$cookie.set('BEARER', response.data.token, {expires: 7});
+                                this.$router.push({name: 'bets'});
+                            });
+                        }
+                    }).finally(() => {
+                        this.loading = false;
+                    });
+                },
+                createAccount() {
+                    this.loading = true;
+                    this.axios.post(this.apiBaseUrl + '/users/new', {
+                        username: this.userLogin,
+                        password: this.userPassword
+                    }).then((response) => {
+                        if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
+                            this.connectPlayer();
+                        }
+                    }).finally(() => {
+                        this.loading = false;
+                    });
+                },
             },
-            createAccount() {
-                this.loading = true;
-                this.axios.post(this.apiBaseUrl + '/users/new', {
-                    username: this.userLogin,
-                    password: this.userPassword
-                }).then((response) => {
-                    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
-                        this.connectPlayer();
-                    }
-                }).finally(() => {
-                    this.loading = false;
-                });
-            },
-        }, mapMutations(['logIn']))
+        )
     }
 </script>
 

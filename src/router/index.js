@@ -22,7 +22,7 @@ const routes = [
         name: 'logOut',
         path: '/logout',
         beforeEnter(to, from, next) {
-            store.commit('logOut');
+            store.commit('resetAuthData');
             Vue.cookie.delete('BEARER');
             next({name: 'logIn'});
         },
