@@ -4,6 +4,7 @@ import Cookie from 'vue-cookie';
 import matchModule from './modules/match';
 import userModule from './modules/user';
 import betModule from './modules/bet';
+import router from '../router/index';
 
 Vue.use(Vuex);
 Vue.use(Cookie);
@@ -92,7 +93,7 @@ export default new Vuex.Store({
                     context.commit(setter, response.data);
                 }
             }).catch(() => {
-                Vue.router.push({name: 'logOut'});
+                router.push({name: 'logOut'});
             });
         },
     },
