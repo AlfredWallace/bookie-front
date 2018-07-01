@@ -8,5 +8,18 @@ export default {
         setMatches(state, data) {
             state.matches = data;
         },
+        setHomeScore(state, {id, score}) {
+            state.matches[id].home_score = score;
+        },
+        setAwayScore(state, {id, score}) {
+            state.matches[id].away_score = score;
+        },
+    },
+    getters: {
+        getMatch(state) {
+            return (id) => {
+                return state.matches[id];
+            };
+        },
     },
 };

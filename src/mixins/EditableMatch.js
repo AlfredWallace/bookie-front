@@ -1,8 +1,62 @@
+import {mapState, mapGetters} from 'vuex';
+
 export default {
     data() {
         return {
             loading: false
         };
+    },
+    props: ['matchId'],
+    computed: Object.assign(
+        mapState(['apiBaseUrl', 'auth']),
+        mapState('matchModule', ['flagsUrl']),
+        mapGetters('teamModule', ['getTeam']),
+        mapGetters('matchModule', ['getMatch']),
+        {
+            match() {
+                return this.getMatch(this.matchId);
+            },
+            homeTeam() {
+                return this.getTeam(this.match.home_team_id);
+            },
+            awayTeam() {
+                return this.getTeam(this.match.away_team_id);
+            },
+        }
+    ),
+    methods: {
+        saveResult() {
+            this.loading = true;
+            this.axios.post(this.apiBaseUrl + '/matches/' + this.matchId + '/end',
+                {
+                    home_score: this.match.home_score,
+                    away_score: this.match.away_score
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.auth.token}`
+                    }
+                }
+            ).then(() => {
+                this.$notify({
+                    type: 'success',
+                    text: 'Match clôturé !'
+                });
+            }).catch((error) => {
+                let errMsg = 'Erreur inconnue !';
+                if (error.hasOwnProperty('response')
+                    && error.response.hasOwnProperty('data')
+                    && error.response.data.hasOwnProperty('message')) {
+                    errMsg = error.response.data.message;
+                }
+                this.$notify({
+                    type: 'error',
+                    text: errMsg
+                });
+            }).finally(() => {
+                this.loading = false;
+            });
+        }
     },
     template: `
         <div class="col-12 col-md-6 col-lg-4 mb-4">
@@ -16,24 +70,24 @@ export default {
                         <div class="row align-items-center justify-content-center">
                             <div class="col d-flex justify-content-start align-items-center text-uppercase">
                                 <div class="w-25">
-                                    <img class="img-fluid" :src="flagsUrl + getTeam(match.home_team_id).abbreviation" />
+                                    <img class="img-fluid" :src="flagsUrl + homeTeam.abbreviation" />
                                 </div>
-                                <div class="w-25 ml-3 bk-team-name">{{ getTeam(match.home_team_id).abbreviation }}</div>
+                                <div class="w-25 ml-3 bk-team-name">{{ homeTeam.abbreviation }}</div>
                                 <div class="w-25 ml-auto">
                                     <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
-                                        v-model="match.home_score" :readonly="loading == true">
+                                        v-model="homeScore" :readonly="loading == true">
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-center justify-content-center">
                             <div class="col d-flex justify-content-start align-items-center text-uppercase">
                                 <div class="w-25">
-                                    <img class="img-fluid" :src="flagsUrl + getTeam(match.away_team_id).abbreviation" />
+                                    <img class="img-fluid" :src="flagsUrl + awayTeam.abbreviation" />
                                 </div>
-                                <div class="w-25 ml-3 bk-team-name">{{ getTeam(match.away_team_id).abbreviation }}</div>       
+                                <div class="w-25 ml-3 bk-team-name">{{ awayTeam.abbreviation }}</div>       
                                 <div class="w-25 ml-auto">
                                     <input type="number" class="form-control form-control-lg" placeholder="0" step="1"
-                                        v-model="match.away_score" :readonly="loading == true">
+                                        v-model="awayScore" :readonly="loading == true">
                                 </div>
                             </div>
                         </div>

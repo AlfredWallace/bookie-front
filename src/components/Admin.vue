@@ -11,14 +11,14 @@
         </div>
         <div class="row">
             <div class="col-12 h1">Matchs</div>
-            <match-admin v-for="match in matches" :match="match" :key="match.id"></match-admin>
+            <match-admin v-for="match in matches" :match-id="match.id" :key="match.id"></match-admin>
         </div>
     </div>
 </template>
 
 <script>
     import MatchAdmin from './MatchAdmin';
-    import {mapActions, mapState} from 'vuex';
+    import {mapState} from 'vuex';
 
     export default {
         name: "Admin",
@@ -27,20 +27,14 @@
             mapState(['auth', 'apiBaseUrl']),
             mapState('matchModule', ['matches'])
         ),
-        methods: Object.assign(
-            mapActions({fetchMatches: 'matchModule/fetchMatches'}),
-            {
-                recalculateAll() {
-                    Vue.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
-                        headers: {
-                            Authorization: `Bearer ${this.auth.token}`
-                        }
-                    });
-                }
+        methods: {
+            recalculateAll() {
+                Vue.axios.post(this.apiBaseUrl + '/users/refresh-all-points', null, {
+                    headers: {
+                        Authorization: `Bearer ${this.auth.token}`
+                    }
+                });
             }
-        ),
-        created() {
-            this.fetchMatches('/matches-started');
         },
     }
 </script>
