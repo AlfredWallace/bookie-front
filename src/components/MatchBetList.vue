@@ -1,6 +1,6 @@
 <template>
     <div class="row bk-header-shift">
-        <match-bet v-for="match in matches" :match="match" :key="match.id"></match-bet>
+        <match-bet v-for="match in matches" :match-id="match.id" :key="match.id"></match-bet>
     </div>
 </template>
 
@@ -11,10 +11,7 @@
     export default {
         name: "MatchBetList",
         components: {MatchBet},
-        computed: Object.assign(
-            mapState(['auth']),
-            mapState('matchModule', ['matches'])
-        ),
+        computed: mapState('matchModule', ['matches']),
     }
 </script>
 
