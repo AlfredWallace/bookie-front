@@ -26,7 +26,9 @@
         data() {
             return {
                 btnSaveLabel: 'Clôturer le match',
-                btnColor: 'btn-danger'
+                btnColor: 'btn-danger',
+                saveResultPath: '/matches/' + this.matchId + '/end',
+                saveResultSuccessMsg: 'Match clôturé !',
             };
         },
         methods: Object.assign(

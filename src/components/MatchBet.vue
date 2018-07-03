@@ -33,7 +33,9 @@
         data() {
             return {
                 btnSaveLabel: 'Enregistrer mon pari',
-                btnColor: 'btn-success'
+                btnColor: 'btn-success',
+                saveResultPath: '/bets/group-stage',
+                saveResultSuccessMsg: 'Pari sauvegardé !',
             };
         },
         methods: Object.assign(

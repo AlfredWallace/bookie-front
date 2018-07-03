@@ -27,7 +27,7 @@ export default {
     methods: {
         saveResult() {
             this.loading = true;
-            this.axios.post(this.apiBaseUrl + '/matches/' + this.matchId + '/end',
+            this.axios.post(this.apiBaseUrl + this.saveResultPath,
                 {
                     home_score: this.match.home_score,
                     away_score: this.match.away_score
@@ -40,7 +40,7 @@ export default {
             ).then(() => {
                 this.$notify({
                     type: 'success',
-                    text: 'Match clôturé !'
+                    text: this.saveResultSuccessMsg,
                 });
             }).catch((error) => {
                 let errMsg = 'Erreur inconnue !';
