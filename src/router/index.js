@@ -18,22 +18,8 @@ const routes = [
     {name: 'ranks', path: '/classement', component: RankList,},
     {name: 'admin', path: '/admin', component: Admin,},
     {name: 'logIn', path: '/login', component: LoginForm,},
-    {
-        name: 'logOut',
-        path: '/logout',
-        beforeEnter(to, from, next) {
-            store.commit('resetAuthData');
-            Vue.cookie.delete('BEARER');
-            next({name: 'logIn'});
-        },
-    },
-    {
-        name: 'default',
-        path: '/',
-        beforeEnter(to, from, next) {
-            next({name: 'bets'});
-        },
-    },
+    {name: 'logOut', path: '/logout',},
+    {name: 'default', path: '/',},
 ];
 
 const router = new VueRouter({
@@ -42,10 +28,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (store.state.auth.loggedIn !== true && store.state.auth.token === null && to.name !== 'logIn') {
+    if (to.name === 'default') {
+        next({name: 'bets'});
+    } else if (to.name === 'logIn' || (to.name !== 'logOut' && store.state.authModule.loggedIn === true)) {
+        next();
+    } else {
+        store.dispatch('authModule/logOut');
         next({name: 'logIn'});
     }
-    next();
 });
 
 export default router;

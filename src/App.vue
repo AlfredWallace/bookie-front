@@ -2,14 +2,14 @@
     <div class="h-100">
         <nav class="navbar navbar-expand bg-info navbar-dark fixed-top bk-header">
             <div class="container">
-                <div v-if="auth.loggedIn === true" class="navbar-nav w-100 d-flex">
+                <div v-if="loggedIn === true" class="navbar-nav w-100 d-flex">
 
                     <router-link to="/logout" class="nav-item nav-link mr-auto">
                         <font-awesome-icon icon="user-slash" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Déconnexion</span>
                     </router-link>
 
-                    <router-link to="/admin" class="nav-item nav-link" v-if="auth.isAdmin"
+                    <router-link to="/admin" class="nav-item nav-link" v-if="isAdmin"
                                  :class="{ active: $route.name === 'admin'}">
                         <font-awesome-icon icon="unlock" class="fa-lg"></font-awesome-icon>
                         <span class="d-none d-lg-inline">Admin</span>
@@ -58,17 +58,17 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from 'vuex';
+    import {mapActions, mapState, mapGetters} from 'vuex';
 
     export default {
         name: "App",
-        computed: mapState(['auth']),
-        methods: mapActions(['logIn']),
-        created: function() {
-            if (this.auth.token !== null) {
-                this.logIn(this.auth.token);
-            }
-        },
+        computed: mapGetters('authModule', ['loggedIn', 'isAdmin']),
+        // methods: mapActions(['logIn']),
+        // created: function() {
+        //     if (this.auth.token !== null) {
+        //         this.logIn(this.auth.token);
+        //     }
+        // },
     }
 </script>
 
