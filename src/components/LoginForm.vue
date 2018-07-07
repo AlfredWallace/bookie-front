@@ -3,18 +3,18 @@
         <div class="col-md-6 col-lg-4">
             <div class="form-group">
                 <input type="text" v-model="userLogin" placeholder="Username" :disabled="loading === true"
-                       class="form-control form-control-lg" @keyup.enter="connectPlayer">
+                       class="form-control form-control-lg" @keyup.enter="formLogIn">
             </div>
             <div class="form-group">
                 <input type="password" v-model="userPassword" placeholder="Password" :disabled="loading === true"
-                       class="form-control form-control-lg" @keyup.enter="connectPlayer">
+                       class="form-control form-control-lg" @keyup.enter="formLogIn">
             </div>
             <div class="d-flex justify-content-between align-items-center">
-                <button @click="connectPlayer" :disabled="loading === true" class="btn btn-info">
+                <button @click="formLogIn" :disabled="loading === true" class="btn btn-info">
                     Se connecter
                 </button>
                 <span>OU</span>
-                <button @click="createAccount" :disabled="loading === true" class="btn btn-success">
+                <button @click="formCreateAccount" :disabled="loading === true" class="btn btn-success">
                     Créer un compte
                 </button>
             </div>
@@ -36,33 +36,31 @@
         },
         computed: mapState(['apiBaseUrl']),
         methods: Object.assign(
-            mapActions('authModule', ['logIn']),
+            mapActions('authModule', ['logIn', 'createAccount']),
             {
-                connectPlayer() {
+                formLogIn() {
                     this.loading = true;
-                    this.logIn({username: this.userLogin, password: this.userPassword})
-                        .then(() => {
-                            this.$router.push({name: 'bets'});
-                        })
-                        .catch(() => {
-                            // console.log('catch');
-                        })
-                        .finally(() => {
-                            this.loading = false;
-                        });
+                    this.logIn({
+                        username: this.userLogin,
+                        password: this.userPassword
+                    }).then(() => {
+                        this.$router.push({name: 'bets'});
+                    }).catch(() => {
+                        //todo something
+                    }).finally(() => {
+                        this.loading = false;
+                    });
                 },
-                createAccount() {
-                    // this.loading = true;
-                    // this.axios.post(this.apiBaseUrl + '/users/new', {
-                    //     username: this.userLogin,
-                    //     password: this.userPassword
-                    // }).then((response) => {
-                    //     if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
-                    //         this.connectPlayer();
-                    //     }
-                    // }).finally(() => {
-                    //     this.loading = false;
-                    // });
+                formCreateAccount() {
+                    this.loading = true;
+                    this.createAccount({
+                        username: this.userLogin,
+                        password: this.userPassword
+                    }).then(() => {
+                        this.formLogIn();
+                    }).catch(() => {
+                        this.loading = false;
+                    });
                 },
             },
         )

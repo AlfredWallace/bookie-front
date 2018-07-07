@@ -54,7 +54,11 @@ export default {
                     username,
                     password
                 }).then((response) => {
-                    if (response.hasOwnProperty('data') && response.data.hasOwnProperty('token')) {
+                    if (response.hasOwnProperty('status')
+                        && response.status === 200
+                        && response.hasOwnProperty('data')
+                        && response.data.hasOwnProperty('token')
+                    ) {
                         context.commit('setToken', response.data.token);
                         Vue.cookie.set('BEARER', response.data.token, {expires: 7});
                         resolve();
@@ -71,20 +75,25 @@ export default {
             context.commit('clearToken');
             Vue.cookie.delete('BEARER');
         },
-        // createAccount(context, {username, password}) {
-        //     return new Promise((resolve, reject) => {
-        //         Vue.axios.post(context.rootState.apiBaseUrl + '/users/new', {
-        //             username,
-        //             password
-        //         }).then((response) => {
-        //             if (response.hasOwnProperty('data') && response.data.hasOwnProperty('id')) {
-        //                 this.connectPlayer();
-        //             }
-        //         }).finally(() => {
-        //             this.loading = false;
-        //         });
-        //     });
-        // },
+        createAccount(context, {username, password}) {
+            return new Promise((resolve, reject) => {
+                Vue.axios.post(context.rootState.apiBaseUrl + '/users/new', {
+                    username,
+                    password
+                }).then((response) => {
+                    if (response.hasOwnProperty('status')
+                        && response.status === 201
+                        && response.hasOwnProperty('data')
+                    ) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }).catch(() => {
+                    reject();
+                });
+            });
+        },
     },
     // actions: {
     //                         context.dispatch('fetchData', {url: '/teams', setter: 'teamModule/setTeams'});
