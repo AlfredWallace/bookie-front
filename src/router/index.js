@@ -28,7 +28,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.name === 'default') {
+    if (to.name === 'default' || (to.name === 'admin' && store.getters['authModule/isAdmin'] === false)) {
         next({name: 'bets'});
     } else if (to.name === 'logIn' || (to.name !== 'logOut' && store.getters['authModule/loggedIn'] === true)) {
         next();
