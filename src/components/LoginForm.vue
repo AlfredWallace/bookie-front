@@ -46,7 +46,10 @@
                     }).then(() => {
                         this.$router.push({name: 'bets'});
                     }).catch(() => {
-                        //todo something
+                        this.$notify({
+                            type: 'error',
+                            text: 'Connexion impossible !',
+                        });
                     }).finally(() => {
                         this.loading = false;
                     });
@@ -59,6 +62,10 @@
                     }).then(() => {
                         this.formLogIn();
                     }).catch(() => {
+                        this.$notify({
+                            type: 'error',
+                            text: 'Inscription impossible !',
+                        });
                         this.loading = false;
                     });
                 },
