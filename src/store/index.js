@@ -20,19 +20,19 @@ export default new Vuex.Store({
     state: {
         apiBaseUrl: process.env.BOOKIE_API_URL,
     },
-    // actions: {
-    //     fetchData(context, {url, setter}) {
-    //         Vue.axios.get(context.state.apiBaseUrl + url, {
-    //             headers: {
-    //                 Authorization: `Bearer ${context.rootState.auth.token}`,
-    //             },
-    //         }).then((response) => {
-    //             if (response.hasOwnProperty('data')) {
-    //                 context.commit(setter, response.data);
-    //             }
-    //         }).catch(() => {
-    //             router.push({name: 'logOut'});
-    //         });
-    //     },
-    // },
+    actions: {
+        fetchData(context, {url, setter}) {
+            Vue.axios.get(context.state.apiBaseUrl + url, {
+                headers: {
+                    Authorization: `Bearer ${context.state.authModule.token}`,
+                },
+            }).then((response) => {
+                if (response.hasOwnProperty('data')) {
+                    context.commit(setter, response.data);
+                }
+            }).catch(() => {
+                router.push({name: 'logOut'});
+            });
+        },
+    },
 });

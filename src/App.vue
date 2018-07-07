@@ -58,17 +58,19 @@
 </template>
 
 <script>
-    import {mapActions, mapState, mapGetters} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
 
     export default {
         name: "App",
         computed: mapGetters('authModule', ['loggedIn', 'isAdmin']),
-        // methods: mapActions(['logIn']),
+        methods: mapActions(['fetchData']),
         // created: function() {
-        //     if (this.auth.token !== null) {
-        //         this.logIn(this.auth.token);
-        //     }
-        // },
+        // this.fetchData({url: '/teams', setter: 'teamModule/setTeams'});
+        // context.dispatch('fetchData', {url: '/teams', setter: 'teamModule/setTeams'}, {root: true},);
+        // context.dispatch('fetchData', {url: '/users', setter: 'userModule/setUsers'}, {root: true},);
+        // context.dispatch('fetchData', {url: '/matches', setter: 'matchModule/setMatches'}, {root: true},);
+        // context.dispatch('fetchData', {url: '/bets', setter: 'betModule/setBets'}, {root: true},);
+        //     },
     }
 </script>
 

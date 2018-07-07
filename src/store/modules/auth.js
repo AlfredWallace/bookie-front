@@ -95,11 +95,4 @@ export default {
             });
         },
     },
-    // actions: {
-    //                         context.dispatch('fetchData', {url: '/teams', setter: 'teamModule/setTeams'});
-    //                         context.dispatch('fetchData', {url: '/users', setter: 'userModule/setUsers'});
-    //                         context.dispatch('fetchData', {url: '/matches', setter: 'matchModule/setMatches'});
-    //                         context.dispatch('fetchData', {url: '/bets', setter: 'betModule/setBets'});
-    //                         reso
-    // },
 }

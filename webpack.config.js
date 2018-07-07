@@ -40,7 +40,7 @@ module.exports = {
         }),
         new WebpackMd5Hash(),
         new Dotenv(),
-        new CopyWebpackPlugin([ {from: 'src/img/*', to: 'img/', flatten: true } ]),
+        new CopyWebpackPlugin([{from: 'src/img/*', to: 'img/', flatten: true}]),
         new VueLoaderPlugin(),
     ],
     resolve: {

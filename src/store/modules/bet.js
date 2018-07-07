@@ -25,7 +25,7 @@ export default {
                 let userBets = rootState.userModule.users[userId].bets_ids;
                 let matchBets = rootState.matchModule.matches[matchId].bets_ids;
 
-                for(let userBetId in userBets) {
+                for (let userBetId in userBets) {
                     if (userBets.hasOwnProperty(userBetId)) {
                         for (let matchBetId in matchBets) {
                             if (matchBets.hasOwnProperty(matchBetId) && userBetId === matchBetId) {
